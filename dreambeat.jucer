@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<JUCERPROJECT id="dVTH39" name="dreambeat" projectType="audioplug" jucerVersion="5.4.7">
+  <MAINGROUP id="jm1isc" name="dreambeat">
+    <GROUP id="{5C4BD082-10A1-8CFF-112D-FA5B58F04D95}" name="src">
+      <FILE id="eE5q6v" name="AmountKnob.h" compile="0" resource="0" file="src/AmountKnob.h"/>
+      <FILE id="JLzsSu" name="FreqKnob.h" compile="0" resource="0" file="src/FreqKnob.h"/>
+      <FILE id="apbpPI" name="KnobLookAndFeel.h" compile="0" resource="0"
+            file="src/KnobLookAndFeel.h"/>
+      <FILE id="k6UTLp" name="PluginEditor.cpp" compile="1" resource="0"
+            file="src/PluginEditor.cpp"/>
+      <FILE id="oZ87Vk" name="PluginEditor.h" compile="0" resource="0" file="src/PluginEditor.h"/>
+      <FILE id="lUZszR" name="PluginProcessor.cpp" compile="1" resource="0"
+            file="src/PluginProcessor.cpp"/>
+      <FILE id="ljtTKG" name="PluginProcessor.h" compile="0" resource="0"
+            file="src/PluginProcessor.h"/>
+      <FILE id="LI1px1" name="RowComponent.h" compile="0" resource="0" file="src/RowComponent.h"/>
+    </GROUP>
+  </MAINGROUP>
+  <EXPORTFORMATS>
+    <XCODE_MAC targetFolder="Builds/MacOSX">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug"/>
+        <CONFIGURATION isDebug="0" name="Release"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="lib/JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_MAC>
+    <XCODE_IPHONE targetFolder="Builds/iOS">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug"/>
+        <CONFIGURATION isDebug="0" name="Release"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="lib/JUCE/modules"/>
+      </MODULEPATHS>
+    </XCODE_IPHONE>
+    <ANDROIDSTUDIO targetFolder="Builds/Android">
+      <CONFIGURATIONS>
+        <CONFIGURATION isDebug="1" name="Debug"/>
+        <CONFIGURATION isDebug="0" name="Release"/>
+      </CONFIGURATIONS>
+      <MODULEPATHS>
+        <MODULEPATH id="juce_audio_basics" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_core" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_cryptography" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_data_structures" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_events" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_graphics" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="lib/JUCE/modules"/>
+        <MODULEPATH id="juce_opengl" path="lib/JUCE/modules"/>
+      </MODULEPATHS>
+    </ANDROIDSTUDIO>
+  </EXPORTFORMATS>
+  <MODULES>
+    <MODULE id="juce_audio_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_audio_devices" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_audio_formats" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_audio_plugin_client" showAllCode="1" useLocalCopy="0"
+            useGlobalPath="0"/>
+    <MODULE id="juce_audio_processors" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_audio_utils" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_core" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_cryptography" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_data_structures" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_events" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_graphics" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_gui_basics" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+    <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
+  </MODULES>
+  <LIVE_SETTINGS>
+    <OSX/>
+  </LIVE_SETTINGS>
+  <JUCEOPTIONS JUCE_VST3_CAN_REPLACE_VST2="0" JUCE_STRICT_REFCOUNTEDPOINTER="1"/>
+</JUCERPROJECT>
