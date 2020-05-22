@@ -3,17 +3,24 @@
 <JUCERPROJECT id="dVTH39" name="dreambeat" projectType="audioplug" jucerVersion="5.4.7">
   <MAINGROUP id="jm1isc" name="dreambeat">
     <GROUP id="{5C4BD082-10A1-8CFF-112D-FA5B58F04D95}" name="src">
-      <GROUP id="{A2EF00A0-0B36-E1A9-AC50-C0A5029962E7}" name="model">
-        <FILE id="a6vV5v" name="DreambeatAudioProcessor.cpp" compile="1" resource="0"
+      <GROUP id="{E737587F-4686-D25C-A7AB-D97F888A3175}" name="model">
+        <FILE id="Obzn9L" name="DreambeatAudioProcessor.cpp" compile="1" resource="0"
               file="src/model/DreambeatAudioProcessor.cpp"/>
-        <FILE id="oQFfBx" name="DreambeatAudioProcessor.h" compile="0" resource="0"
+        <FILE id="qXVMI8" name="DreambeatAudioProcessor.h" compile="0" resource="0"
               file="src/model/DreambeatAudioProcessor.h"/>
+        <FILE id="tkshsq" name="DreambeatEngine.cpp" compile="1" resource="0"
+              file="src/model/DreambeatEngine.cpp"/>
+        <FILE id="rJz1bp" name="DreambeatEngine.h" compile="0" resource="0"
+              file="src/model/DreambeatEngine.h"/>
       </GROUP>
       <GROUP id="{3FA7D79A-8BA5-6260-71D9-9B929617E6DF}" name="ui">
-        <FILE id="hoNpEq" name="DreambeatAudioProcessorEditor.cpp" compile="1"
+        <FILE id="HtCIQa" name="DreambeatAudioProcessorEditor.cpp" compile="1"
               resource="0" file="src/ui/DreambeatAudioProcessorEditor.cpp"/>
-        <FILE id="Tdi07P" name="DreambeatAudioProcessorEditor.h" compile="0"
+        <FILE id="EZLokc" name="DreambeatAudioProcessorEditor.h" compile="0"
               resource="0" file="src/ui/DreambeatAudioProcessorEditor.h"/>
+      </GROUP>
+      <GROUP id="{4B6782D0-FFF0-5F0D-3824-18BAFBBE02A7}" name="util">
+        <FILE id="Zg9tlk" name="Threading.h" compile="0" resource="0" file="src/util/Threading.h"/>
       </GROUP>
     </GROUP>
   </MAINGROUP>

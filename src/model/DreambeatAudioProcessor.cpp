@@ -1,17 +1,18 @@
 
 #include "DreambeatAudioProcessor.h"
 #include "../ui/DreambeatAudioProcessorEditor.h"
+#include "../util/Threading.h"
 
 DreambeatAudioProcessor::DreambeatAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
-     : AudioProcessor( BusesProperties()
-                     #if ! JucePlugin_IsMidiEffect
-                      #if ! JucePlugin_IsSynth
-                       .withInput( "Input",  AudioChannelSet::stereo(), true )
-                      #endif
-                       .withOutput( "Output", AudioChannelSet::stereo(), true )
-                     #endif
-                       )
+: AudioProcessor( BusesProperties()
+#if !JucePlugin_IsMidiEffect
+#if !JucePlugin_IsSynth
+                  .withInput( "Input", AudioChannelSet::stereo(), true )
+#endif
+                  .withOutput( "Output", AudioChannelSet::stereo(), true )
+#endif
+  )
 #endif
 {
 }
@@ -27,29 +28,29 @@ const String DreambeatAudioProcessor::getName() const
 
 bool DreambeatAudioProcessor::acceptsMidi() const
 {
-   #if JucePlugin_WantsMidiInput
+#if JucePlugin_WantsMidiInput
     return true;
-   #else
+#else
     return false;
-   #endif
+#endif
 }
 
 bool DreambeatAudioProcessor::producesMidi() const
 {
-   #if JucePlugin_ProducesMidiOutput
+#if JucePlugin_ProducesMidiOutput
     return true;
-   #else
+#else
     return false;
-   #endif
+#endif
 }
 
 bool DreambeatAudioProcessor::isMidiEffect() const
 {
-   #if JucePlugin_IsMidiEffect
+#if JucePlugin_IsMidiEffect
     return true;
-   #else
+#else
     return false;
-   #endif
+#endif
 }
 
 double DreambeatAudioProcessor::getTailLengthSeconds() const
@@ -59,8 +60,8 @@ double DreambeatAudioProcessor::getTailLengthSeconds() const
 
 int DreambeatAudioProcessor::getNumPrograms()
 {
-    return 1;   // NB: some hosts don't cope very well if you tell them there are 0 programs,
-                // so this should be at least 1, even if you're not really implementing programs.
+    return 1; // NB: some hosts don't cope very well if you tell them there are 0 programs,
+              // so this should be at least 1, even if you're not really implementing programs.
 }
 
 int DreambeatAudioProcessor::getCurrentProgram()
@@ -83,12 +84,14 @@ void DreambeatAudioProcessor::changeProgramName( int index, const String& newNam
 
 void DreambeatAudioProcessor::prepareToPlay( double sampleRate, int samplesPerBlock )
 {
-    if ( !engineWrapper )
+    if ( !_engine )
     {
-        callFunctionOnMessageThread ([&] { engineWrapper = std::make_unique<EngineWrapper>(); });
+        callFunctionOnMessageThread( [&] { _engine = std::make_unique<DreambeatEngine>(); } );
     }
     setLatencySamples( samplesPerBlock );
-    ensurePrepareToPlayCalledOnMessageThread( sampleRate, samplesPerBlock );
+    jassert( _engine );
+    callFunctionOnMessageThread(
+    [&] { _engine->getAudioInterface().prepareToPlay( sampleRate, samplesPerBlock ); } );
 }
 
 void DreambeatAudioProcessor::releaseResources()
@@ -100,41 +103,41 @@ void DreambeatAudioProcessor::releaseResources()
 #ifndef JucePlugin_PreferredChannelConfigurations
 bool DreambeatAudioProcessor::isBusesLayoutSupported( const BusesLayout& layouts ) const
 {
-  #if JucePlugin_IsMidiEffect
+#if JucePlugin_IsMidiEffect
     ignoreUnused( layouts );
     return true;
-  #else
+#else
     // This is the place where you check if the layout is supported.
     // In this template code we only support mono or stereo.
-    if ( layouts.getMainOutputChannelSet() != AudioChannelSet::mono()
-      && layouts.getMainOutputChannelSet() != AudioChannelSet::stereo() )
+    if ( layouts.getMainOutputChannelSet() != AudioChannelSet::mono() &&
+         layouts.getMainOutputChannelSet() != AudioChannelSet::stereo() )
         return false;
 
-    // This checks if the input layout matches the output layout
-   #if ! JucePlugin_IsSynth
-    if( layouts.getMainOutputChannelSet() != layouts.getMainInputChannelSet() )
+        // This checks if the input layout matches the output layout
+#if !JucePlugin_IsSynth
+    if ( layouts.getMainOutputChannelSet() != layouts.getMainInputChannelSet() )
         return false;
-   #endif
+#endif
 
     return true;
-  #endif
+#endif
 }
 #endif
 
 void DreambeatAudioProcessor::processBlock( AudioBuffer<float>& buffer, MidiBuffer& midiMessages )
 {
     // Update position info first
-    engineWrapper->playheadSynchroniser.synchronise( *this );
-    
+    _engine->getPlayheadSynchroniser().synchronise( *this );
+
     ScopedNoDenormals noDenormals;
-    auto totalNumInputChannels  = getTotalNumInputChannels();
+    auto totalNumInputChannels = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
     for ( auto i = totalNumInputChannels; i < totalNumOutputChannels; ++i )
     {
         buffer.clear( i, 0, buffer.getNumSamples() );
     }
-    
-    engineWrapper->audioInterface.processBlock( buffer, midiMessages );
+
+    _engine->getAudioInterface().processBlock( buffer, midiMessages );
 }
 
 bool DreambeatAudioProcessor::hasEditor() const

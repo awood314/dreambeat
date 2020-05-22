@@ -1,10 +1,10 @@
 
 #pragma once
 
-#include <JuceHeader.h>
 #include "../model/DreambeatAudioProcessor.h"
+#include <JuceHeader.h>
 
-class DreambeatAudioProcessorEditor  : public AudioProcessorEditor
+class DreambeatAudioProcessorEditor : public AudioProcessorEditor
 {
 public:
     DreambeatAudioProcessorEditor( DreambeatAudioProcessor& );
@@ -15,7 +15,7 @@ public:
 
 private:
     DreambeatAudioProcessor& processor;
-    
+
     TabbedComponent _tc;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR( DreambeatAudioProcessorEditor )
