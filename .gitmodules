@@ -1,4 +1,3 @@
-[submodule "lib/JUCE"]
-	path = lib/JUCE
-	url = git@github.com:juce-framework/JUCE.git
-	branch = juce6
+[submodule "lib/tracktion_engine"]
+	path = lib/tracktion_engine
+	url = git@github.com:Tracktion/tracktion_engine.git
