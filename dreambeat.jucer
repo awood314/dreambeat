@@ -3,18 +3,18 @@
 <JUCERPROJECT id="dVTH39" name="dreambeat" projectType="audioplug" jucerVersion="5.4.7">
   <MAINGROUP id="jm1isc" name="dreambeat">
     <GROUP id="{5C4BD082-10A1-8CFF-112D-FA5B58F04D95}" name="src">
-      <FILE id="eE5q6v" name="AmountKnob.h" compile="0" resource="0" file="src/AmountKnob.h"/>
-      <FILE id="JLzsSu" name="FreqKnob.h" compile="0" resource="0" file="src/FreqKnob.h"/>
-      <FILE id="apbpPI" name="KnobLookAndFeel.h" compile="0" resource="0"
-            file="src/KnobLookAndFeel.h"/>
-      <FILE id="k6UTLp" name="PluginEditor.cpp" compile="1" resource="0"
-            file="src/PluginEditor.cpp"/>
-      <FILE id="oZ87Vk" name="PluginEditor.h" compile="0" resource="0" file="src/PluginEditor.h"/>
-      <FILE id="lUZszR" name="PluginProcessor.cpp" compile="1" resource="0"
-            file="src/PluginProcessor.cpp"/>
-      <FILE id="ljtTKG" name="PluginProcessor.h" compile="0" resource="0"
-            file="src/PluginProcessor.h"/>
-      <FILE id="LI1px1" name="RowComponent.h" compile="0" resource="0" file="src/RowComponent.h"/>
+      <GROUP id="{A2EF00A0-0B36-E1A9-AC50-C0A5029962E7}" name="model">
+        <FILE id="a6vV5v" name="DreambeatAudioProcessor.cpp" compile="1" resource="0"
+              file="src/model/DreambeatAudioProcessor.cpp"/>
+        <FILE id="oQFfBx" name="DreambeatAudioProcessor.h" compile="0" resource="0"
+              file="src/model/DreambeatAudioProcessor.h"/>
+      </GROUP>
+      <GROUP id="{3FA7D79A-8BA5-6260-71D9-9B929617E6DF}" name="ui">
+        <FILE id="hoNpEq" name="DreambeatAudioProcessorEditor.cpp" compile="1"
+              resource="0" file="src/ui/DreambeatAudioProcessorEditor.cpp"/>
+        <FILE id="Tdi07P" name="DreambeatAudioProcessorEditor.h" compile="0"
+              resource="0" file="src/ui/DreambeatAudioProcessorEditor.h"/>
+      </GROUP>
     </GROUP>
   </MAINGROUP>
   <EXPORTFORMATS>
