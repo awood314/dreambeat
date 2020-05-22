@@ -83,6 +83,12 @@ void DreambeatAudioProcessor::changeProgramName( int index, const String& newNam
 
 void DreambeatAudioProcessor::prepareToPlay( double sampleRate, int samplesPerBlock )
 {
+    if ( !engineWrapper )
+    {
+        callFunctionOnMessageThread ([&] { engineWrapper = std::make_unique<EngineWrapper>(); });
+    }
+    setLatencySamples( samplesPerBlock );
+    ensurePrepareToPlayCalledOnMessageThread( sampleRate, samplesPerBlock );
 }
 
 void DreambeatAudioProcessor::releaseResources()
@@ -117,6 +123,9 @@ bool DreambeatAudioProcessor::isBusesLayoutSupported( const BusesLayout& layouts
 
 void DreambeatAudioProcessor::processBlock( AudioBuffer<float>& buffer, MidiBuffer& midiMessages )
 {
+    // Update position info first
+    engineWrapper->playheadSynchroniser.synchronise( *this );
+    
     ScopedNoDenormals noDenormals;
     auto totalNumInputChannels  = getTotalNumInputChannels();
     auto totalNumOutputChannels = getTotalNumOutputChannels();
@@ -125,19 +134,7 @@ void DreambeatAudioProcessor::processBlock( AudioBuffer<float>& buffer, MidiBuff
         buffer.clear( i, 0, buffer.getNumSamples() );
     }
     
-    // This is the place where you'd normally do the guts of your plugin's
-    // audio processing...
-    // Make sure to reset the state if your inner loop is processing
-    // the samples and the outer loop is handling the channels.
-    // Alternatively, you can process the samples with the channels
-    // interleaved by keeping the same state.
-    for ( int channel = 0; channel < totalNumInputChannels; ++channel )
-    {
-        auto* channelData = buffer.getWritePointer( channel );
-
-        // ..do something to the data...
-    }
-
+    engineWrapper->audioInterface.processBlock( buffer, midiMessages );
 }
 
 bool DreambeatAudioProcessor::hasEditor() const

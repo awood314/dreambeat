@@ -3,7 +3,9 @@
 #include "../model/DreambeatAudioProcessor.h"
 
 DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProcessor& p )
-    : AudioProcessorEditor( &p ), processor( p ), _tc( TabbedButtonBar::TabsAtTop )
+: AudioProcessorEditor( &p ),
+processor( p ),
+_tc( TabbedButtonBar::TabsAtTop )
 {
     addAndMakeVisible( _tc );
     _tc.addTab( "test1", juce::Colours::black, nullptr, false );
