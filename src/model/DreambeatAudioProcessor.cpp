@@ -1,7 +1,6 @@
 
 #include "DreambeatAudioProcessor.h"
 #include "../ui/DreambeatAudioProcessorEditor.h"
-#include "../util/Threading.h"
 
 DreambeatAudioProcessor::DreambeatAudioProcessor()
 #ifndef JucePlugin_PreferredChannelConfigurations
@@ -82,16 +81,10 @@ void DreambeatAudioProcessor::changeProgramName( int index, const String& newNam
 {
 }
 
-void DreambeatAudioProcessor::prepareToPlay( double sampleRate, int samplesPerBlock )
+void DreambeatAudioProcessor::prepareToPlay( double sampleRate, int blockSize )
 {
-    if ( !_engine )
-    {
-        callFunctionOnMessageThread( [&] { _engine = std::make_unique<DreambeatEngine>(); } );
-    }
-    setLatencySamples( samplesPerBlock );
-    jassert( _engine );
-    callFunctionOnMessageThread(
-    [&] { _engine->getAudioInterface().prepareToPlay( sampleRate, samplesPerBlock ); } );
+    _app.createEngine( sampleRate, blockSize );
+    setLatencySamples( blockSize );
 }
 
 void DreambeatAudioProcessor::releaseResources()
@@ -124,10 +117,9 @@ bool DreambeatAudioProcessor::isBusesLayoutSupported( const BusesLayout& layouts
 }
 #endif
 
-void DreambeatAudioProcessor::processBlock( AudioBuffer<float>& buffer, MidiBuffer& midiMessages )
+void DreambeatAudioProcessor::processBlock( juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages )
 {
-    // Update position info first
-    _engine->getPlayheadSynchroniser().synchronise( *this );
+    _app.synchronize( *this );
 
     ScopedNoDenormals noDenormals;
     auto totalNumInputChannels = getTotalNumInputChannels();
@@ -137,7 +129,7 @@ void DreambeatAudioProcessor::processBlock( AudioBuffer<float>& buffer, MidiBuff
         buffer.clear( i, 0, buffer.getNumSamples() );
     }
 
-    _engine->getAudioInterface().processBlock( buffer, midiMessages );
+    _app.processBlock( buffer, midiMessages );
 }
 
 bool DreambeatAudioProcessor::hasEditor() const
@@ -161,6 +153,11 @@ void DreambeatAudioProcessor::setStateInformation( const void* data, int sizeInB
 {
     // You should use this method to restore your parameters from this memory block,
     // whose contents will have been created by the getStateInformation() call.
+}
+
+DreambeatApp& DreambeatAudioProcessor::getApp()
+{
+    return _app;
 }
 
 AudioProcessor* JUCE_CALLTYPE createPluginFilter()

@@ -9,6 +9,8 @@ public:
     tracktion_engine::HostedAudioDeviceInterface& getAudioInterface();
     tracktion_engine::ExternalPlayheadSynchroniser& getPlayheadSynchroniser();
 
+    void play();
+
 private:
     class PluginEngineBehaviour : public tracktion_engine::EngineBehaviour
     {

@@ -3,11 +3,12 @@
 #include "../model/DreambeatAudioProcessor.h"
 
 DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProcessor& p )
-: AudioProcessorEditor( &p ), processor( p ), _tc( TabbedButtonBar::TabsAtTop )
+: AudioProcessorEditor( &p ), _tc( TabbedButtonBar::TabsAtTop )
 {
     addAndMakeVisible( _tc );
-    _tc.addTab( "test1", juce::Colours::black, nullptr, false );
+    _tc.addTab( "test1", juce::Colours::black, &_button, false );
     _tc.addTab( "test2", juce::Colours::grey, nullptr, false );
+    _button.onClick = [this, &p]() { p.getApp().play(); };
     setSize( 400, 300 );
 }
 

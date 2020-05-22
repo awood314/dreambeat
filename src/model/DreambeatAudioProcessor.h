@@ -1,23 +1,23 @@
 
 #pragma once
 
-#include "DreambeatEngine.h"
+#include "DreambeatApp.h"
 #include <JuceHeader.h>
 
-class DreambeatAudioProcessor : public AudioProcessor
+class DreambeatAudioProcessor : public juce::AudioProcessor
 {
 public:
     DreambeatAudioProcessor();
     ~DreambeatAudioProcessor();
 
-    void prepareToPlay( double sampleRate, int samplesPerBlock ) override;
+    void prepareToPlay( double sampleRate, int blockSize ) override;
     void releaseResources() override;
 
 #ifndef JucePlugin_PreferredChannelConfigurations
     bool isBusesLayoutSupported( const BusesLayout& layouts ) const override;
 #endif
 
-    void processBlock( AudioBuffer<float>&, MidiBuffer& ) override;
+    void processBlock( juce::AudioBuffer<float>&, juce::MidiBuffer& ) override;
 
     AudioProcessorEditor* createEditor() override;
     bool hasEditor() const override;
@@ -38,8 +38,10 @@ public:
     void getStateInformation( MemoryBlock& destData ) override;
     void setStateInformation( const void* data, int sizeInBytes ) override;
 
+    DreambeatApp& getApp();
+
 private:
-    std::unique_ptr<DreambeatEngine> _engine;
+    DreambeatApp _app;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR( DreambeatAudioProcessor )
 };

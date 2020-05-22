@@ -10,6 +10,30 @@ DreambeatEngine::DreambeatEngine()
     getAudioInterface().initialise( {} );
     setupInputs();
     setupOutputs();
+
+    // load a clip into the transport
+    auto f = juce::File::createTempFile( ".wav" );
+    f.replaceWithData( BinaryData::amen_wav, BinaryData::amen_wavSize );
+    if ( auto track = getOrInsertAudioTrackAt( 0 ) )
+    {
+        // remove all clips
+        auto clips = track->getClips();
+        for ( int i = clips.size(); --i >= 0; )
+            clips.getUnchecked( i )->removeFromParentTrack();
+
+        // Add a new clip to this track
+        tracktion_engine::AudioFile audioFile( _engine, f );
+
+        if ( audioFile.isValid() )
+            if ( auto clip = track->insertWaveClip( f.getFileNameWithoutExtension(), f,
+                                                    { { 0.0, audioFile.getLength() }, 0.0 }, false ) )
+            {
+                auto& transport = _edit.getTransport();
+                transport.setLoopRange( clip->getEditTimeRange() );
+                transport.looping = true;
+                transport.position = 0.0;
+            }
+    }
 }
 
 tracktion_engine::HostedAudioDeviceInterface& DreambeatEngine::getAudioInterface()
@@ -20,6 +44,15 @@ tracktion_engine::HostedAudioDeviceInterface& DreambeatEngine::getAudioInterface
 tracktion_engine::ExternalPlayheadSynchroniser& DreambeatEngine::getPlayheadSynchroniser()
 {
     return _playheadSynchroniser;
+}
+
+void DreambeatEngine::play()
+{
+    auto& transport = _edit.getTransport();
+    if ( transport.isPlaying() )
+        transport.stop( false, false );
+    else
+        transport.play( false );
 }
 
 tracktion_engine::AudioTrack* DreambeatEngine::getOrInsertAudioTrackAt( int index )

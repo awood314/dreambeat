@@ -2,8 +2,16 @@
 
 <JUCERPROJECT id="dVTH39" name="dreambeat" projectType="audioplug" jucerVersion="5.4.7">
   <MAINGROUP id="jm1isc" name="dreambeat">
+    <GROUP id="{A4309A3F-309C-DAD7-CEBC-B0614238EB70}" name="assets">
+      <GROUP id="{760991DA-08DE-81CE-52E3-021276A35018}" name="audio">
+        <FILE id="zlbcdL" name="amen.wav" compile="0" resource="1" file="assets/audio/amen.wav"/>
+      </GROUP>
+    </GROUP>
     <GROUP id="{5C4BD082-10A1-8CFF-112D-FA5B58F04D95}" name="src">
       <GROUP id="{E737587F-4686-D25C-A7AB-D97F888A3175}" name="model">
+        <FILE id="KMhV0f" name="DreambeatApp.cpp" compile="1" resource="0"
+              file="src/model/DreambeatApp.cpp"/>
+        <FILE id="ku18Di" name="DreambeatApp.h" compile="0" resource="0" file="src/model/DreambeatApp.h"/>
         <FILE id="Obzn9L" name="DreambeatAudioProcessor.cpp" compile="1" resource="0"
               file="src/model/DreambeatAudioProcessor.cpp"/>
         <FILE id="qXVMI8" name="DreambeatAudioProcessor.h" compile="0" resource="0"

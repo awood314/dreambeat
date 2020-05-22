@@ -7,16 +7,15 @@
 class DreambeatAudioProcessorEditor : public AudioProcessorEditor
 {
 public:
-    DreambeatAudioProcessorEditor( DreambeatAudioProcessor& );
+    DreambeatAudioProcessorEditor( DreambeatAudioProcessor& p );
     ~DreambeatAudioProcessorEditor();
 
     void paint( Graphics& g ) override;
     void resized() override;
 
 private:
-    DreambeatAudioProcessor& processor;
-
     TabbedComponent _tc;
+    juce::TextButton _button;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR( DreambeatAudioProcessorEditor )
 };
