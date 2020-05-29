@@ -26,6 +26,18 @@
               resource="0" file="src/ui/DreambeatAudioProcessorEditor.cpp"/>
         <FILE id="EZLokc" name="DreambeatAudioProcessorEditor.h" compile="0"
               resource="0" file="src/ui/DreambeatAudioProcessorEditor.h"/>
+        <FILE id="AAz0oX" name="SampleSlicerComponent.cpp" compile="1" resource="0"
+              file="src/ui/SampleSlicerComponent.cpp"/>
+        <FILE id="ZCC4UT" name="SampleSlicerComponent.h" compile="0" resource="0"
+              file="src/ui/SampleSlicerComponent.h"/>
+        <FILE id="P9fb36" name="SequenceComponent.cpp" compile="1" resource="0"
+              file="src/ui/SequenceComponent.cpp"/>
+        <FILE id="K4F2RY" name="SequenceComponent.h" compile="0" resource="0"
+              file="src/ui/SequenceComponent.h"/>
+        <FILE id="HkdkCo" name="ThumbnailComponent.cpp" compile="1" resource="0"
+              file="src/ui/ThumbnailComponent.cpp"/>
+        <FILE id="msluqO" name="ThumbnailComponent.h" compile="0" resource="0"
+              file="src/ui/ThumbnailComponent.h"/>
       </GROUP>
       <GROUP id="{4B6782D0-FFF0-5F0D-3824-18BAFBBE02A7}" name="util">
         <FILE id="Zg9tlk" name="Threading.h" compile="0" resource="0" file="src/util/Threading.h"/>

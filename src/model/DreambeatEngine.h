@@ -10,6 +10,11 @@ public:
     tracktion_engine::ExternalPlayheadSynchroniser& getPlayheadSynchroniser();
 
     void play();
+    void play( int index );
+
+    void loadSample( juce::File& f );
+
+    tracktion_engine::StepClip::Ptr getClip();
 
 private:
     class PluginEngineBehaviour : public tracktion_engine::EngineBehaviour

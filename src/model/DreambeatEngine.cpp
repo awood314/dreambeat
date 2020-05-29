@@ -10,31 +10,62 @@ DreambeatEngine::DreambeatEngine()
     getAudioInterface().initialise( {} );
     setupInputs();
     setupOutputs();
+}
 
-    // load a clip into the transport
-    auto f = juce::File::createTempFile( ".wav" );
-    f.replaceWithData( BinaryData::amen_wav, BinaryData::amen_wavSize );
+void DreambeatEngine::loadSample( juce::File& f )
+{
     if ( auto track = getOrInsertAudioTrackAt( 0 ) )
     {
-        // remove all clips
-        auto clips = track->getClips();
-        for ( int i = clips.size(); --i >= 0; )
-            clips.getUnchecked( i )->removeFromParentTrack();
+        // audio file to slice
+        auto af = tracktion_engine::AudioFile( _engine, f );
+        _edit.tempoSequence.getTempos()[0]->setBpm( 137.40 );
 
-        // Add a new clip to this track
-        tracktion_engine::AudioFile audioFile( _engine, f );
+        // create 1bar step clip
+        const tracktion_engine::EditTimeRange editTimeRange( 0, _edit.tempoSequence.barsBeatsToTime( { 4, 0.0 } ) );
+        track->insertNewClip( tracktion_engine::TrackItem::Type::step, "Step Clip", editTimeRange, nullptr );
+        if ( auto* clip = dynamic_cast<tracktion_engine::StepClip*>( track->getClips()[0] ) )
+        {
+            // loop around clip
+            auto& transport = _edit.getTransport();
+            transport.setLoopRange( clip->getEditTimeRange() );
+            transport.looping = true;
+            transport.position = 0.0;
 
-        if ( audioFile.isValid() )
-            if ( auto clip = track->insertWaveClip( f.getFileNameWithoutExtension(), f,
-                                                    { { 0.0, audioFile.getLength() }, 0.0 }, false ) )
+            // create sampler for the clip
+            if ( auto sampler = dynamic_cast<tracktion_engine::SamplerPlugin*>(
+                 _edit.getPluginCache()
+                 .createNewPlugin( tracktion_engine::SamplerPlugin::xmlTypeName, {} )
+                 .get() ) )
             {
-                auto& transport = _edit.getTransport();
-                transport.setLoopRange( clip->getEditTimeRange() );
-                transport.looping = true;
-                transport.position = 0.0;
+                track->pluginList.insertPlugin( *sampler, 0, nullptr );
+
+                // slice the sample across each channel
+                auto& channels = clip->getChannels();
+                auto slice = af.getLength() / (double)channels.size();
+                for ( int i = 0; i < channels.size(); i++ )
+                {
+                    const auto error = sampler->addSound( f.getFullPathName(), channels[i]->name.get(),
+                                                          (double)i * slice, 0.0, 1.0f );
+                    sampler->setSoundParams( i, channels[i]->noteNumber, channels[i]->noteNumber,
+                                             channels[i]->noteNumber );
+                    jassert( error.isEmpty() );
+                }
             }
+        }
     }
 }
+
+tracktion_engine::StepClip::Ptr DreambeatEngine::getClip()
+{
+    if ( auto track = getOrInsertAudioTrackAt( 0 ) )
+    {
+        if ( auto clip = dynamic_cast<tracktion_engine::StepClip*>( track->getClips()[0] ) )
+            return *clip;
+    }
+
+    return {};
+}
+
 
 tracktion_engine::HostedAudioDeviceInterface& DreambeatEngine::getAudioInterface()
 {
@@ -50,9 +81,26 @@ void DreambeatEngine::play()
 {
     auto& transport = _edit.getTransport();
     if ( transport.isPlaying() )
+    {
         transport.stop( false, false );
+    }
     else
+    {
+        transport.setCurrentPosition( 0 );
         transport.play( false );
+    }
+}
+
+void DreambeatEngine::play( int index )
+{
+    auto& transport = _edit.getTransport();
+    if ( transport.isPlaying() )
+    {
+        transport.stop( false, false );
+    }
+
+    transport.setCurrentPosition( ( index / 8. ) * transport.getLoopRange().getEnd() );
+    transport.play( false );
 }
 
 tracktion_engine::AudioTrack* DreambeatEngine::getOrInsertAudioTrackAt( int index )

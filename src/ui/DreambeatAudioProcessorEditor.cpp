@@ -2,27 +2,28 @@
 #include "DreambeatAudioProcessorEditor.h"
 #include "../model/DreambeatAudioProcessor.h"
 
+int NUM_TRACKS = 8;
+
 DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProcessor& p )
-: AudioProcessorEditor( &p ), _tc( TabbedButtonBar::TabsAtTop )
+: AudioProcessorEditor( &p )
 {
-    addAndMakeVisible( _tc );
-    _tc.addTab( "test1", juce::Colours::black, &_button, false );
-    _tc.addTab( "test2", juce::Colours::grey, nullptr, false );
-    _button.onClick = [this, &p]() { p.getApp().play(); };
+    for ( int i = 0; i < NUM_TRACKS; i++ )
+    {
+        auto* sc = new SequenceComponent( p.getApp(), i );
+        _sequencer.add( sc );
+        addAndMakeVisible( sc );
+    }
+    addAndMakeVisible( _playButton );
+    _playButton.onClick = [&p]() { p.getApp().play(); };
     setSize( 400, 300 );
-}
-
-DreambeatAudioProcessorEditor::~DreambeatAudioProcessorEditor()
-{
-}
-
-void DreambeatAudioProcessorEditor::paint( Graphics& g )
-{
-    // background
-    g.fillAll( Colours::transparentBlack );
 }
 
 void DreambeatAudioProcessorEditor::resized()
 {
-    _tc.setSize( getWidth(), getHeight() );
+    auto div = getWidth() / NUM_TRACKS;
+    for ( int i = 0; i < NUM_TRACKS; i++ )
+    {
+        _sequencer[i]->setBounds( i * div, 0, div, getHeight() - div );
+    }
+    _playButton.setBounds( 0, getHeight() - div, getWidth(), div );
 }
