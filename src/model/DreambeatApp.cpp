@@ -41,6 +41,11 @@ void DreambeatApp::play()
     _engine->play();
 }
 
+void DreambeatApp::updateTempo( double tempo )
+{
+    _engine->updateTempo( tempo );
+}
+
 void DreambeatApp::enableClip( int track, int clip, bool value )
 {
     _engine->enableClip( track, clip, value );

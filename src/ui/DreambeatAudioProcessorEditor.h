@@ -17,6 +17,7 @@ private:
     //    SampleSlicerComponent _sampleSlicer;
     juce::OwnedArray<SequenceComponent> _sequencer;
     juce::TextButton _playButton{ "play" };
+    juce::Slider _tempoSlider;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR( DreambeatAudioProcessorEditor )
 };

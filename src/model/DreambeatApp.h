@@ -16,6 +16,7 @@ public:
     juce::File& getSample();
     void play();
     void enableClip( int track, int clip, bool value );
+    void updateTempo( double tempo );
 
 
 private:
