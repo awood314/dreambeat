@@ -10,10 +10,7 @@ SequenceComponent::SequenceComponent( DreambeatApp& app, int channel )
         auto* tb = new ToggleButton();
         _notes.add( tb );
         tb->onClick = [tb, &app, channel, i]() {
-            auto pattern = app.getClip()->getPattern( 0 );
-            pattern.setNumNotes( 64 );
-            pattern.setGate( channel, pattern.getNumNotes() * i / 8.0, 8 );
-            pattern.setNote( channel, pattern.getNumNotes() * i / 8.0, tb->getToggleState() );
+            app.enableClip( channel, i, tb->getToggleState() );
         };
         addAndMakeVisible( tb );
     }

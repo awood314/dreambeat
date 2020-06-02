@@ -14,58 +14,73 @@ DreambeatEngine::DreambeatEngine()
 
 void DreambeatEngine::loadSample( juce::File& f )
 {
-    if ( auto track = getOrInsertAudioTrackAt( 0 ) )
+    // audio file to slice
+    auto af = tracktion_engine::AudioFile( _engine, f );
+    double slice = af.getLength() / 8.0;
+    for ( int i = 0; i < 8; i++ )
     {
-        // audio file to slice
-        auto af = tracktion_engine::AudioFile( _engine, f );
-        _edit.tempoSequence.getTempos()[0]->setBpm( 137.40 );
-
-        // create 1bar step clip
-        const tracktion_engine::EditTimeRange editTimeRange( 0, _edit.tempoSequence.barsBeatsToTime( { 4, 0.0 } ) );
-        track->insertNewClip( tracktion_engine::TrackItem::Type::step, "Step Clip", editTimeRange, nullptr );
-        if ( auto* clip = dynamic_cast<tracktion_engine::StepClip*>( track->getClips()[0] ) )
+        // each slice gets a track
+        if ( auto track = getOrInsertAudioTrackAt( i ) )
         {
-            // loop around clip
-            auto& transport = _edit.getTransport();
-            transport.setLoopRange( clip->getEditTimeRange() );
-            transport.looping = true;
-            transport.position = 0.0;
-
-            // create sampler for the clip
-            if ( auto sampler = dynamic_cast<tracktion_engine::SamplerPlugin*>(
-                 _edit.getPluginCache()
-                 .createNewPlugin( tracktion_engine::SamplerPlugin::xmlTypeName, {} )
-                 .get() ) )
+            // repeat the slice along the track
+            for ( int j = 0; j < 8; j++ )
             {
-                track->pluginList.insertPlugin( *sampler, 0, nullptr );
-
-                // slice the sample across each channel
-                auto& channels = clip->getChannels();
-                auto slice = af.getLength() / (double)channels.size();
-                for ( int i = 0; i < channels.size(); i++ )
+                if ( auto newClip =
+                     track->insertWaveClip( f.getFileNameWithoutExtension(), f,
+                                            { { slice * j, slice * ( j + 1 ) }, slice * i }, false ) )
                 {
-                    const auto error = sampler->addSound( f.getFullPathName(), channels[i]->name.get(),
-                                                          (double)i * slice, 0.0, 1.0f );
-                    sampler->setSoundParams( i, channels[i]->noteNumber, channels[i]->noteNumber,
-                                             channels[i]->noteNumber );
-                    jassert( error.isEmpty() );
+                    newClip->setSyncType( tracktion_engine::Clip::SyncType::syncAbsolute );
+                    newClip->setTimeStretchMode( tracktion_engine::TimeStretcher::Mode::soundtouchNormal );
+                    newClip->setMuted( true );
+                }
+            }
+        }
+    }
+
+    // loop around clips
+    auto& transport = _edit.getTransport();
+    transport.looping = true;
+    transport.position = 0.0;
+
+    updateTempo( 170.00 );
+}
+
+void DreambeatEngine::updateTempo( double tempo )
+{
+    _edit.tempoSequence.getTempo( 0 )->setBpm( tempo );
+    auto len = _edit.tempoSequence.barsBeatsToTime( { 4, 0 } );
+    const tracktion_engine::EditTimeRange editTimeRange( 0, len );
+    auto& transport = _edit.getTransport();
+    transport.setLoopRange( editTimeRange );
+
+    double ratio = tempo / 137.40;
+    for ( int i = 0; i < 8; i++ )
+    {
+        if ( auto* track = getOrInsertAudioTrackAt( i ) )
+        {
+            auto clips = track->getClips();
+            for ( int j = 7; j >= 0; j-- )
+            {
+                if ( auto* audioClip = dynamic_cast<tracktion_engine::WaveAudioClip*>( clips[j] ) )
+                {
+                    audioClip->setPosition( { { len * j / 8.0, len * ( j + 1 ) / 8.0 }, len * i / 8.0 } );
+                    audioClip->setSpeedRatio( ratio );
                 }
             }
         }
     }
 }
 
-tracktion_engine::StepClip::Ptr DreambeatEngine::getClip()
+void DreambeatEngine::enableClip( int track, int clip, bool value )
 {
-    if ( auto track = getOrInsertAudioTrackAt( 0 ) )
+    if ( auto* audioTrack = getOrInsertAudioTrackAt( track ) )
     {
-        if ( auto clip = dynamic_cast<tracktion_engine::StepClip*>( track->getClips()[0] ) )
-            return *clip;
+        if ( auto audioClip = audioTrack->getClips()[clip] )
+        {
+            audioClip->setMuted( !value );
+        }
     }
-
-    return {};
 }
-
 
 tracktion_engine::HostedAudioDeviceInterface& DreambeatEngine::getAudioInterface()
 {
@@ -91,17 +106,6 @@ void DreambeatEngine::play()
     }
 }
 
-void DreambeatEngine::play( int index )
-{
-    auto& transport = _edit.getTransport();
-    if ( transport.isPlaying() )
-    {
-        transport.stop( false, false );
-    }
-
-    transport.setCurrentPosition( ( index / 8. ) * transport.getLoopRange().getEnd() );
-    transport.play( false );
-}
 
 tracktion_engine::AudioTrack* DreambeatEngine::getOrInsertAudioTrackAt( int index )
 {
@@ -122,22 +126,6 @@ void DreambeatEngine::setupInputs()
 
     _edit.playInStopEnabled = true;
     _edit.getTransport().ensureContextAllocated( true );
-
-    // Add the midi input to track 1
-    if ( auto t = getOrInsertAudioTrackAt( 0 ) )
-        if ( auto dev = dm.getMidiInDevice( 0 ) )
-            for ( auto instance : _edit.getAllInputDevices() )
-                if ( &instance->getInputDevice() == dev )
-                    instance->setTargetTrack( *t, 0, true );
-
-    // Also add the same midi input to track 2
-    if ( auto t = getOrInsertAudioTrackAt( 1 ) )
-        if ( auto dev = dm.getMidiInDevice( 0 ) )
-            for ( auto instance : _edit.getAllInputDevices() )
-                if ( &instance->getInputDevice() == dev )
-                    instance->setTargetTrack( *t, 0, false );
-
-
     _edit.restartPlayback();
 }
 
@@ -153,13 +141,5 @@ void DreambeatEngine::setupOutputs()
 
     _edit.playInStopEnabled = true;
     _edit.getTransport().ensureContextAllocated( true );
-
-    // Set track 2 to send to midi output
-    if ( auto t = getOrInsertAudioTrackAt( 1 ) )
-    {
-        auto& output = t->getOutput();
-        output.setOutputToDefaultDevice( true );
-    }
-
     _edit.restartPlayback();
 }

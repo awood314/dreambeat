@@ -14,11 +14,9 @@ public:
     void processBlock( juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages );
 
     juce::File& getSample();
-
     void play();
-    void play( int index );
+    void enableClip( int track, int clip, bool value );
 
-    tracktion_engine::StepClip::Ptr getClip();
 
 private:
     std::unique_ptr<DreambeatEngine> _engine;

@@ -36,18 +36,12 @@ juce::File& DreambeatApp::getSample()
     return _amen;
 }
 
-tracktion_engine::StepClip::Ptr DreambeatApp::getClip()
-{
-    return _engine->getClip();
-}
-
-
 void DreambeatApp::play()
 {
     _engine->play();
 }
 
-void DreambeatApp::play( int index )
+void DreambeatApp::enableClip( int track, int clip, bool value )
 {
-    _engine->play( index );
+    _engine->enableClip( track, clip, value );
 }

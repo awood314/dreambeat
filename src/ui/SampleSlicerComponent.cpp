@@ -9,7 +9,7 @@ SampleSlicerComponent::SampleSlicerComponent( DreambeatApp& app ) : _thumbnailCo
     for ( int i = 0; i < NUM_SLICES; i++ )
     {
         auto* tb = new TextButton( juce::String( i ) );
-        tb->onClick = [&app, i]() { app.play( i ); };
+        tb->onClick = [&app, i]() { app.play(); };
         _slicerButtons.add( tb );
         addAndMakeVisible( tb );
     }
