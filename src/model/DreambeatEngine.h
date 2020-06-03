@@ -9,6 +9,8 @@ public:
     tracktion_engine::HostedAudioDeviceInterface& getAudioInterface();
     tracktion_engine::ExternalPlayheadSynchroniser& getPlayheadSynchroniser();
 
+    int getCurrentSequence();
+    bool isPlaying();
     void play();
     void loadSample( juce::File& f );
     void updateTempo( double tempo );

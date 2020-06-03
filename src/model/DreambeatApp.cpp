@@ -36,6 +36,16 @@ juce::File& DreambeatApp::getSample()
     return _amen;
 }
 
+int DreambeatApp::getCurrentSequence()
+{
+    return _engine->getCurrentSequence();
+}
+
+bool DreambeatApp::isPlaying()
+{
+    return _engine->isPlaying();
+}
+
 void DreambeatApp::play()
 {
     _engine->play();

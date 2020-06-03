@@ -92,6 +92,18 @@ tracktion_engine::ExternalPlayheadSynchroniser& DreambeatEngine::getPlayheadSync
     return _playheadSynchroniser;
 }
 
+int DreambeatEngine::getCurrentSequence()
+{
+    auto& transport = _edit.getTransport();
+    return transport.getCurrentPosition() * 16.0 / transport.getLoopRange().getEnd();
+}
+
+bool DreambeatEngine::isPlaying()
+{
+    auto& transport = _edit.getTransport();
+    return transport.isPlaying();
+}
+
 void DreambeatEngine::play()
 {
     auto& transport = _edit.getTransport();

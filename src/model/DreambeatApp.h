@@ -14,6 +14,9 @@ public:
     void processBlock( juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages );
 
     juce::File& getSample();
+
+    int getCurrentSequence();
+    bool isPlaying();
     void play();
     void enableClip( int track, int clip, bool value );
     void updateTempo( double tempo );
