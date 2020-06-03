@@ -2,16 +2,23 @@
 #include "DreambeatAudioProcessorEditor.h"
 #include "../model/DreambeatAudioProcessor.h"
 
-int NUM_TRACKS = 8;
+int NUM_TRACKS = 16;
 
 DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProcessor& p )
-: AudioProcessorEditor( &p )
+: AudioProcessorEditor( &p ), _sequencerTabs( juce::TabbedButtonBar::TabsAtTop )
 {
+    addAndMakeVisible( _sequencerTabs );
     for ( int i = 0; i < NUM_TRACKS; i++ )
     {
-        auto* sc = new SequenceComponent( p.getApp(), i );
-        _sequencer.add( sc );
-        addAndMakeVisible( sc );
+        // every 8 tracks gets a tab
+        int grid = i / 8;
+        if ( grid >= _grids.size() )
+        {
+            auto* sg = new SequenceGrid();
+            _grids.add( sg );
+            _sequencerTabs.addTab( juce::String( grid ), juce::Colours::grey, sg, grid );
+        }
+        _grids[grid]->addSequence( p.getApp(), i );
     }
     addAndMakeVisible( _playButton );
     _playButton.onClick = [&p]() { p.getApp().play(); };
@@ -24,9 +31,10 @@ DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProc
 void DreambeatAudioProcessorEditor::resized()
 {
     auto div = getWidth() / NUM_TRACKS;
-    for ( int i = 0; i < NUM_TRACKS; i++ )
+    _sequencerTabs.setBounds( 0, 0, getWidth(), getHeight() - div * 2 );
+    for ( auto* grid : _grids )
     {
-        _sequencer[i]->setBounds( i * div, 0, div, getHeight() - div * 2 );
+        grid->setBounds( 0, 0, getWidth(), getHeight() );
     }
     _playButton.setBounds( 0, getHeight() - div * 2, getWidth(), div );
     _tempoSlider.setBounds( 0, getHeight() - div, getWidth(), div );

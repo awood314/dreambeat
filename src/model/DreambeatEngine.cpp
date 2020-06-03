@@ -16,14 +16,14 @@ void DreambeatEngine::loadSample( juce::File& f )
 {
     // audio file to slice
     auto af = tracktion_engine::AudioFile( _engine, f );
-    double slice = af.getLength() / 8.0;
-    for ( int i = 0; i < 8; i++ )
+    double slice = af.getLength() / 16.0;
+    for ( int i = 0; i < 16; i++ )
     {
         // each slice gets a track
         if ( auto track = getOrInsertAudioTrackAt( i ) )
         {
             // repeat the slice along the track
-            for ( int j = 0; j < 8; j++ )
+            for ( int j = 0; j < 16; j++ )
             {
                 if ( auto newClip =
                      track->insertWaveClip( f.getFileNameWithoutExtension(), f,
@@ -54,16 +54,16 @@ void DreambeatEngine::updateTempo( double tempo )
     transport.setLoopRange( editTimeRange );
 
     double ratio = tempo / 137.40;
-    for ( int i = 0; i < 8; i++ )
+    for ( int i = 0; i < 16; i++ )
     {
         if ( auto* track = getOrInsertAudioTrackAt( i ) )
         {
             auto clips = track->getClips();
-            for ( int j = 7; j >= 0; j-- )
+            for ( int j = 15; j >= 0; j-- )
             {
                 if ( auto* audioClip = dynamic_cast<tracktion_engine::WaveAudioClip*>( clips[j] ) )
                 {
-                    audioClip->setPosition( { { len * j / 8.0, len * ( j + 1 ) / 8.0 }, len * i / 8.0 } );
+                    audioClip->setPosition( { { len * j / 16.0, len * ( j + 1 ) / 16.0 }, len * i / 16.0 } );
                     audioClip->setSpeedRatio( ratio );
                 }
             }

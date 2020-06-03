@@ -1,7 +1,7 @@
 
 #include "SequenceComponent.h"
 
-int NUM_NOTES = 8;
+int NUM_NOTES = 16;
 
 SequenceComponent::SequenceComponent( DreambeatApp& app, int channel )
 {

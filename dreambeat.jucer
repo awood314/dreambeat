@@ -34,6 +34,9 @@
               file="src/ui/SequenceComponent.cpp"/>
         <FILE id="K4F2RY" name="SequenceComponent.h" compile="0" resource="0"
               file="src/ui/SequenceComponent.h"/>
+        <FILE id="olUPwH" name="SequenceGrid.cpp" compile="1" resource="0"
+              file="src/ui/SequenceGrid.cpp"/>
+        <FILE id="Pa7n05" name="SequenceGrid.h" compile="0" resource="0" file="src/ui/SequenceGrid.h"/>
         <FILE id="HkdkCo" name="ThumbnailComponent.cpp" compile="1" resource="0"
               file="src/ui/ThumbnailComponent.cpp"/>
         <FILE id="msluqO" name="ThumbnailComponent.h" compile="0" resource="0"

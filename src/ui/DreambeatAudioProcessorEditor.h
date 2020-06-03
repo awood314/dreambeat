@@ -3,7 +3,7 @@
 
 #include "../model/DreambeatAudioProcessor.h"
 #include "SampleSlicerComponent.h"
-#include "SequenceComponent.h"
+#include "SequenceGrid.h"
 #include <JuceHeader.h>
 
 class DreambeatAudioProcessorEditor : public AudioProcessorEditor
@@ -14,8 +14,8 @@ public:
     void resized() override;
 
 private:
-    //    SampleSlicerComponent _sampleSlicer;
-    juce::OwnedArray<SequenceComponent> _sequencer;
+    juce::TabbedComponent _sequencerTabs;
+    juce::OwnedArray<SequenceGrid> _grids;
     juce::TextButton _playButton{ "play" };
     juce::Slider _tempoSlider;
 
