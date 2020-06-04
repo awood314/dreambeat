@@ -25,5 +25,5 @@ public:
 
 private:
     std::unique_ptr<DreambeatEngine> _engine;
-    juce::OwnedArray<TrackSequence> _tracks;
+    juce::Array<TrackSequence*> _tracks;
 };

@@ -15,7 +15,7 @@ public:
 
 private:
     int _scene{ 0 };
-    std::unique_ptr<TrackSequence> _track;
+    TrackSequence* _track;
     juce::OwnedArray<juce::ToggleButton> _notes;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR( SequenceComponent )
