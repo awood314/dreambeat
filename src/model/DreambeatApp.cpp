@@ -4,8 +4,6 @@
 
 DreambeatApp::DreambeatApp()
 {
-    _amen = juce::File::createTempFile( ".wav" );
-    _amen.replaceWithData( BinaryData::amen_wav, BinaryData::amen_wavSize );
 }
 
 void DreambeatApp::createEngine( double sampleRate, int blockSize )
@@ -17,7 +15,6 @@ void DreambeatApp::createEngine( double sampleRate, int blockSize )
     jassert( _engine );
     callFunctionOnMessageThread(
     [&] { _engine->getAudioInterface().prepareToPlay( sampleRate, blockSize ); } );
-    _engine->loadSample( _amen );
 }
 
 void DreambeatApp::synchronize( juce::AudioProcessor& proc )
@@ -31,9 +28,15 @@ void DreambeatApp::processBlock( juce::AudioBuffer<float>& buffer, juce::MidiBuf
     _engine->getAudioInterface().processBlock( buffer, midiMessages );
 }
 
-juce::File& DreambeatApp::getSample()
+void DreambeatApp::loadSample()
 {
-    return _amen;
+    auto amen = juce::File::createTempFile( ".wav" );
+    amen.replaceWithData( BinaryData::amen_wav, BinaryData::amen_wavSize );
+    auto createdTracks = _engine->loadSample( amen );
+    for ( auto* track : createdTracks )
+    {
+        _tracks.add( new TrackSequence( track ) );
+    }
 }
 
 int DreambeatApp::getCurrentSequence()
@@ -56,7 +59,7 @@ void DreambeatApp::updateTempo( double tempo )
     _engine->updateTempo( tempo );
 }
 
-void DreambeatApp::enableClip( int track, int clip, bool value )
+TrackSequence* DreambeatApp::getTrack( int i )
 {
-    _engine->enableClip( track, clip, value );
+    return _tracks[i];
 }

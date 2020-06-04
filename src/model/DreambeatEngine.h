@@ -12,9 +12,8 @@ public:
     int getCurrentSequence();
     bool isPlaying();
     void play();
-    void loadSample( juce::File& f );
+    juce::Array<tracktion_engine::AudioTrack*> loadSample( juce::File& f );
     void updateTempo( double tempo );
-    void enableClip( int track, int clip, bool value );
 
 private:
     class PluginEngineBehaviour : public tracktion_engine::EngineBehaviour

@@ -12,8 +12,10 @@ DreambeatEngine::DreambeatEngine()
     setupOutputs();
 }
 
-void DreambeatEngine::loadSample( juce::File& f )
+juce::Array<tracktion_engine::AudioTrack*> DreambeatEngine::loadSample( juce::File& f )
 {
+    juce::Array<tracktion_engine::AudioTrack*> createdTracks;
+
     // audio file to slice
     auto af = tracktion_engine::AudioFile( _engine, f );
     double slice = af.getLength() / 16.0;
@@ -22,6 +24,8 @@ void DreambeatEngine::loadSample( juce::File& f )
         // each slice gets a track
         if ( auto track = getOrInsertAudioTrackAt( i ) )
         {
+            createdTracks.add( track );
+
             // repeat the slice along the track
             for ( int j = 0; j < 16; j++ )
             {
@@ -41,8 +45,9 @@ void DreambeatEngine::loadSample( juce::File& f )
     auto& transport = _edit.getTransport();
     transport.looping = true;
     transport.position = 0.0;
+    updateTempo( 90.0 );
 
-    updateTempo( 170.00 );
+    return createdTracks;
 }
 
 void DreambeatEngine::updateTempo( double tempo )
@@ -67,17 +72,6 @@ void DreambeatEngine::updateTempo( double tempo )
                     audioClip->setSpeedRatio( ratio );
                 }
             }
-        }
-    }
-}
-
-void DreambeatEngine::enableClip( int track, int clip, bool value )
-{
-    if ( auto* audioTrack = getOrInsertAudioTrackAt( track ) )
-    {
-        if ( auto audioClip = audioTrack->getClips()[clip] )
-        {
-            audioClip->setMuted( !value );
         }
     }
 }

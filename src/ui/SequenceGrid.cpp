@@ -3,6 +3,10 @@
 
 int NUM_GRID_TRACKS = 8;
 
+SequenceGrid::SequenceGrid()
+{
+}
+
 void SequenceGrid::resized()
 {
     auto div = getWidth() / NUM_GRID_TRACKS;
@@ -15,9 +19,21 @@ void SequenceGrid::resized()
     }
 }
 
-void SequenceGrid::addSequence( DreambeatApp& app, int track )
+void SequenceGrid::setScene( int i )
 {
-    auto* sc = new SequenceComponent( app, track );
+    if ( i != _scene )
+    {
+        _scene = i;
+        for ( auto* sc : _sequences )
+        {
+            sc->setScene( i );
+        }
+    }
+}
+
+void SequenceGrid::addSequence( TrackSequence* track )
+{
+    auto* sc = new SequenceComponent( track );
     _sequences.add( sc );
     addAndMakeVisible( sc );
 }

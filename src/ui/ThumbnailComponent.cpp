@@ -5,9 +5,9 @@ ThumbnailComponent::ThumbnailComponent( DreambeatApp& app )
 : _sampleThumbnailCache( 5 ), _sampleThumbnail( 512, _formatManager, _sampleThumbnailCache )
 {
     _formatManager.registerBasicFormats();
-    _formatManager.createReaderFor( app.getSample() );
-    _sampleThumbnail.addChangeListener( this );
-    _sampleThumbnail.setSource( new juce::FileInputSource( app.getSample() ) );
+    //    _formatManager.createReaderFor( app.getSample() );
+    //    _sampleThumbnail.addChangeListener( this );
+    //    _sampleThumbnail.setSource( new juce::FileInputSource( app.getSample() ) );
 }
 
 void ThumbnailComponent::changeListenerCallback( juce::ChangeBroadcaster* source )

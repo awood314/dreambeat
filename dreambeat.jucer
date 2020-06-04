@@ -20,6 +20,9 @@
               file="src/model/DreambeatEngine.cpp"/>
         <FILE id="rJz1bp" name="DreambeatEngine.h" compile="0" resource="0"
               file="src/model/DreambeatEngine.h"/>
+        <FILE id="Ps30vi" name="TrackSequence.cpp" compile="1" resource="0"
+              file="src/model/TrackSequence.cpp"/>
+        <FILE id="c7zXPQ" name="TrackSequence.h" compile="0" resource="0" file="src/model/TrackSequence.h"/>
       </GROUP>
       <GROUP id="{3FA7D79A-8BA5-6260-71D9-9B929617E6DF}" name="ui">
         <FILE id="HtCIQa" name="DreambeatAudioProcessorEditor.cpp" compile="1"

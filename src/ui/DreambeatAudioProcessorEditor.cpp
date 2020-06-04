@@ -5,9 +5,10 @@
 int NUM_TRACKS = 16;
 
 DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProcessor& p )
-: AudioProcessorEditor( &p ), _sequencerTabs( juce::TabbedButtonBar::TabsAtTop ), _app( p.getApp() )
+: AudioProcessorEditor( &p ), _app( p.getApp() ), _sequencerTabs( juce::TabbedButtonBar::TabsAtTop )
 {
     addAndMakeVisible( _sequencerTabs );
+    _app.loadSample();
     for ( int i = 0; i < NUM_TRACKS; i++ )
     {
         // every 8 tracks gets a tab
@@ -18,7 +19,7 @@ DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProc
             _grids.add( sg );
             _sequencerTabs.addTab( juce::String( grid ), juce::Colours::grey, sg, grid );
         }
-        _grids[grid]->addSequence( _app, i );
+        _grids[grid]->addSequence( _app.getTrack( i ) );
     }
     addAndMakeVisible( _playButton );
     _playButton.onClick = [this]() {
@@ -36,8 +37,11 @@ DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProc
 
 void DreambeatAudioProcessorEditor::timerCallback()
 {
-    auto div = _grids.getFirst()->getHeight() / 16.0;
-    _playhead.setBounds( 0, _grids.getFirst()->getY() + _app.getCurrentSequence() * div, getWidth(), div );
+    auto seq = _app.getCurrentSequence();
+    auto* grid = _grids[_sequencerTabs.getCurrentTabIndex()];
+    grid->setScene( seq / 8 );
+    auto div = grid->getHeight() / 8.0;
+    _playhead.setBounds( 0, grid->getY() + ( seq % 8 ) * div, getWidth(), div );
 }
 
 void DreambeatAudioProcessorEditor::resized()
