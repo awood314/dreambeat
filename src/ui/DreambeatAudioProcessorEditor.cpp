@@ -1,6 +1,6 @@
 
 #include "DreambeatAudioProcessorEditor.h"
-#include "../model/DreambeatAudioProcessor.h"
+#include "../ui/Colors.h"
 
 int NUM_TRACKS = 16;
 
@@ -30,18 +30,23 @@ DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProc
     _tempoSlider.setRange( 90, 180, 1 );
     _tempoSlider.onValueChange = [&p, this]() { p.getApp().updateTempo( _tempoSlider.getValue() ); };
     addAndMakeVisible( _playhead );
-    _playhead.setColour( juce::Label::backgroundColourId, juce::Colours::black );
+    _playhead.setColour( juce::Label::backgroundColourId, colors::transparentWhite );
+    _playhead.setInterceptsMouseClicks( false, false );
     setSize( 400, 300 );
     startTimer( 50 );
 }
 
 void DreambeatAudioProcessorEditor::timerCallback()
 {
-    auto seq = _app.getCurrentSequence();
-    auto* grid = _grids[_sequencerTabs.getCurrentTabIndex()];
-    grid->setScene( seq / 8 );
-    auto div = grid->getHeight() / 8.0;
-    _playhead.setBounds( 0, grid->getY() + ( seq % 8 ) * div, getWidth(), div );
+    _playhead.setVisible( _app.isPlaying() );
+    if ( _app.isPlaying() )
+    {
+        auto seq = _app.getCurrentSequence();
+        auto* grid = _grids[_sequencerTabs.getCurrentTabIndex()];
+        grid->setScene( seq / 8 );
+        auto div = grid->getHeight() / 8.0;
+        _playhead.setBounds( 0, grid->getY() + ( seq % 8 ) * div, getWidth(), div );
+    }
 }
 
 void DreambeatAudioProcessorEditor::resized()

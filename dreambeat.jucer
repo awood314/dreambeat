@@ -25,6 +25,7 @@
         <FILE id="c7zXPQ" name="TrackSequence.h" compile="0" resource="0" file="src/model/TrackSequence.h"/>
       </GROUP>
       <GROUP id="{3FA7D79A-8BA5-6260-71D9-9B929617E6DF}" name="ui">
+        <FILE id="Z60mIK" name="Colors.h" compile="0" resource="0" file="src/ui/Colors.h"/>
         <FILE id="HtCIQa" name="DreambeatAudioProcessorEditor.cpp" compile="1"
               resource="0" file="src/ui/DreambeatAudioProcessorEditor.cpp"/>
         <FILE id="EZLokc" name="DreambeatAudioProcessorEditor.h" compile="0"
