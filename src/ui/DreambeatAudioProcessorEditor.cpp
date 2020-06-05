@@ -19,7 +19,7 @@ DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProc
         auto* grid = _grids[_sequencerTabs.getCurrentTabIndex()];
         grid->setScene( s / 8 );
         auto div = grid->getHeight() / 8.0;
-        _playhead.setBounds( 0, grid->getY() + ( s % 8 ) * div, getWidth(), div );
+        _playhead.setBounds( 0, grid->getY() + _sequencerTabs.getY() + ( s % 8 ) * div, getWidth(), div );
     } );
 
     // nav
@@ -50,7 +50,8 @@ DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProc
 
 void DreambeatAudioProcessorEditor::resized()
 {
-    _sequencerTabs.setBounds( 0, 0, getWidth(), getHeight() / 2 );
-    _nav.setBounds( 0, getHeight() / 2, getWidth(), getHeight() / 4 );
-    _tempoSlider.setBounds( 0, getHeight() * 3.0 / 4.0, getWidth(), getHeight() / 4 );
+    auto div = getHeight() / 4;
+    _tempoSlider.setSize( getWidth(), div );
+    _sequencerTabs.setBounds( 0, div, getWidth(), div * 2 );
+    _nav.setBounds( 0, div * 3, getWidth(), div );
 }

@@ -7,6 +7,7 @@ namespace colors
 {
 
 const juce::Colour black( 0xFF2A2426 );
+const juce::Colour transparent( 0x00000000 );
 const juce::Colour transparentWhite( 0x50FFFFFF );
 //\ 'bg0':        ['#',   '235',  'Black'],
 //\ 'bg1':        ['#242021',   '236',  'DarkGrey'],

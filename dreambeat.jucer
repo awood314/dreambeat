@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="dVTH39" name="dreambeat" projectType="audioplug" jucerVersion="5.4.7"
-              headerPath="../../lib">
+              headerPath="../../lib&#10;../../src">
   <MAINGROUP id="jm1isc" name="dreambeat">
     <GROUP id="{A4309A3F-309C-DAD7-CEBC-B0614238EB70}" name="assets">
       <GROUP id="{760991DA-08DE-81CE-52E3-021276A35018}" name="audio">
         <FILE id="zlbcdL" name="amen.wav" compile="0" resource="1" file="assets/audio/amen.wav"/>
+      </GROUP>
+      <GROUP id="{23B6802E-DBD4-047B-593D-69A1ECB64F2B}" name="icons">
+        <FILE id="Cw2SUB" name="play_selected.svg" compile="0" resource="1"
+              file="assets/icons/play_selected.svg"/>
+        <FILE id="qLUPsS" name="play_unselected.svg" compile="0" resource="1"
+              file="assets/icons/play_unselected.svg"/>
       </GROUP>
     </GROUP>
     <GROUP id="{5C4BD082-10A1-8CFF-112D-FA5B58F04D95}" name="src">

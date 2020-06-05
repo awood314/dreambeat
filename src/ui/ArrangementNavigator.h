@@ -18,7 +18,7 @@ private:
     juce::Label _beatLabel;
     juce::TextButton _beatDownButton{ "down" };
 
-    juce::TextButton _playButton{ "play" };
+    juce::DrawableButton _playButton;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR( ArrangementNavigator )
 };
