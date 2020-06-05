@@ -15,6 +15,7 @@ void DreambeatApp::createEngine( double sampleRate, int blockSize )
     jassert( _engine );
     callFunctionOnMessageThread(
     [&] { _engine->getAudioInterface().prepareToPlay( sampleRate, blockSize ); } );
+    _arrangement.setTransport( _engine->getTransport() );
 }
 
 void DreambeatApp::synchronize( juce::AudioProcessor& proc )
@@ -39,24 +40,14 @@ void DreambeatApp::loadSample()
     }
 }
 
-int DreambeatApp::getCurrentSequence()
-{
-    return _engine->getCurrentSequence();
-}
-
-bool DreambeatApp::isPlaying()
-{
-    return _engine->isPlaying();
-}
-
-void DreambeatApp::play()
-{
-    _engine->play();
-}
-
 void DreambeatApp::updateTempo( double tempo )
 {
     _engine->updateTempo( tempo );
+}
+
+Arrangement& DreambeatApp::getArrangement()
+{
+    return _arrangement;
 }
 
 TrackSequence* DreambeatApp::getTrack( int i )

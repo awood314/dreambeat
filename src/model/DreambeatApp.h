@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include "Arrangement.h"
 #include "DreambeatEngine.h"
 #include "TrackSequence.h"
 #include <JuceHeader.h>
@@ -15,15 +16,14 @@ public:
     void processBlock( juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages );
 
     void loadSample();
-    int getCurrentSequence();
-    bool isPlaying();
-    void play();
-    void enableClip( int track, int clip, bool value );
+
     void updateTempo( double tempo );
 
     TrackSequence* getTrack( int i );
+    Arrangement& getArrangement();
 
 private:
     std::unique_ptr<DreambeatEngine> _engine;
-    juce::Array<TrackSequence*> _tracks;
+    juce::OwnedArray<TrackSequence> _tracks;
+    Arrangement _arrangement;
 };

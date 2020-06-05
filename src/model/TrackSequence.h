@@ -12,5 +12,5 @@ public:
     bool getNote( int note );
 
 private:
-    std::unique_ptr<tracktion_engine::AudioTrack> _track;
+    tracktion_engine::AudioTrack* _track;
 };

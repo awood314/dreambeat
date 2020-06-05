@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<JUCERPROJECT id="dVTH39" name="dreambeat" projectType="audioplug" jucerVersion="5.4.7">
+<JUCERPROJECT id="dVTH39" name="dreambeat" projectType="audioplug" jucerVersion="5.4.7"
+              headerPath="../../lib">
   <MAINGROUP id="jm1isc" name="dreambeat">
     <GROUP id="{A4309A3F-309C-DAD7-CEBC-B0614238EB70}" name="assets">
       <GROUP id="{760991DA-08DE-81CE-52E3-021276A35018}" name="audio">
@@ -9,6 +10,8 @@
     </GROUP>
     <GROUP id="{5C4BD082-10A1-8CFF-112D-FA5B58F04D95}" name="src">
       <GROUP id="{E737587F-4686-D25C-A7AB-D97F888A3175}" name="model">
+        <FILE id="fQt9hs" name="Arrangement.cpp" compile="1" resource="0" file="src/model/Arrangement.cpp"/>
+        <FILE id="hqwOtu" name="Arrangement.h" compile="0" resource="0" file="src/model/Arrangement.h"/>
         <FILE id="KMhV0f" name="DreambeatApp.cpp" compile="1" resource="0"
               file="src/model/DreambeatApp.cpp"/>
         <FILE id="ku18Di" name="DreambeatApp.h" compile="0" resource="0" file="src/model/DreambeatApp.h"/>
@@ -25,15 +28,15 @@
         <FILE id="c7zXPQ" name="TrackSequence.h" compile="0" resource="0" file="src/model/TrackSequence.h"/>
       </GROUP>
       <GROUP id="{3FA7D79A-8BA5-6260-71D9-9B929617E6DF}" name="ui">
+        <FILE id="M4GCSM" name="ArrangementNavigator.cpp" compile="1" resource="0"
+              file="src/ui/ArrangementNavigator.cpp"/>
+        <FILE id="z6ntJW" name="ArrangementNavigator.h" compile="0" resource="0"
+              file="src/ui/ArrangementNavigator.h"/>
         <FILE id="Z60mIK" name="Colors.h" compile="0" resource="0" file="src/ui/Colors.h"/>
         <FILE id="HtCIQa" name="DreambeatAudioProcessorEditor.cpp" compile="1"
               resource="0" file="src/ui/DreambeatAudioProcessorEditor.cpp"/>
         <FILE id="EZLokc" name="DreambeatAudioProcessorEditor.h" compile="0"
               resource="0" file="src/ui/DreambeatAudioProcessorEditor.h"/>
-        <FILE id="AAz0oX" name="SampleSlicerComponent.cpp" compile="1" resource="0"
-              file="src/ui/SampleSlicerComponent.cpp"/>
-        <FILE id="ZCC4UT" name="SampleSlicerComponent.h" compile="0" resource="0"
-              file="src/ui/SampleSlicerComponent.h"/>
         <FILE id="P9fb36" name="SequenceComponent.cpp" compile="1" resource="0"
               file="src/ui/SequenceComponent.cpp"/>
         <FILE id="K4F2RY" name="SequenceComponent.h" compile="0" resource="0"

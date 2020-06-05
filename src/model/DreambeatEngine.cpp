@@ -86,32 +86,10 @@ tracktion_engine::ExternalPlayheadSynchroniser& DreambeatEngine::getPlayheadSync
     return _playheadSynchroniser;
 }
 
-int DreambeatEngine::getCurrentSequence()
+tracktion_engine::TransportControl* DreambeatEngine::getTransport()
 {
-    auto& transport = _edit.getTransport();
-    return transport.getCurrentPosition() * 16.0 / transport.getLoopRange().getEnd();
+    return &_edit.getTransport();
 }
-
-bool DreambeatEngine::isPlaying()
-{
-    auto& transport = _edit.getTransport();
-    return transport.isPlaying();
-}
-
-void DreambeatEngine::play()
-{
-    auto& transport = _edit.getTransport();
-    if ( transport.isPlaying() )
-    {
-        transport.stop( false, false );
-    }
-    else
-    {
-        transport.setCurrentPosition( 0 );
-        transport.play( false );
-    }
-}
-
 
 tracktion_engine::AudioTrack* DreambeatEngine::getOrInsertAudioTrackAt( int index )
 {

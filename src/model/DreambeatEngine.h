@@ -9,9 +9,7 @@ public:
     tracktion_engine::HostedAudioDeviceInterface& getAudioInterface();
     tracktion_engine::ExternalPlayheadSynchroniser& getPlayheadSynchroniser();
 
-    int getCurrentSequence();
-    bool isPlaying();
-    void play();
+    tracktion_engine::TransportControl* getTransport();
     juce::Array<tracktion_engine::AudioTrack*> loadSample( juce::File& f );
     void updateTempo( double tempo );
 
