@@ -12,7 +12,7 @@ DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProc
     addAndMakeVisible( _sequencerTabs );
 
     // playhead
-    addChildComponent( _playhead );
+    addAndMakeVisible( _playhead );
     _playhead.setColour( juce::Label::backgroundColourId, colors::transparentWhite );
     _playhead.setInterceptsMouseClicks( false, false );
     p.getApp().getArrangement().newSequence.connect( [this]( int s ) {
@@ -21,8 +21,6 @@ DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProc
         auto div = grid->getHeight() / 8.0;
         _playhead.setBounds( 0, grid->getY() + ( s % 8 ) * div, getWidth(), div );
     } );
-    p.getApp().getArrangement().playPause.connect(
-    [this]( bool playing ) { _playhead.setVisible( playing ); } );
 
     // nav
     addAndMakeVisible( _nav );
@@ -47,13 +45,12 @@ DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProc
         _grids[grid]->addSequence( _app.getTrack( i ) );
     }
 
-    setSize( 400, 300 );
+    setSize( 360, 640 );
 }
 
 void DreambeatAudioProcessorEditor::resized()
 {
-    auto div = getWidth() / NUM_TRACKS;
-    _sequencerTabs.setBounds( 0, 0, getWidth(), getHeight() - div * 2 );
-    _nav.setBounds( 0, getHeight() - div * 2, getWidth(), div );
-    _tempoSlider.setBounds( 0, getHeight() - div, getWidth(), div );
+    _sequencerTabs.setBounds( 0, 0, getWidth(), getHeight() / 2 );
+    _nav.setBounds( 0, getHeight() / 2, getWidth(), getHeight() / 4 );
+    _tempoSlider.setBounds( 0, getHeight() * 3.0 / 4.0, getWidth(), getHeight() / 4 );
 }

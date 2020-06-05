@@ -14,6 +14,10 @@ public:
 private:
     Arrangement& _arrangement;
 
+    juce::TextButton _beatUpButton{ "up" };
+    juce::Label _beatLabel;
+    juce::TextButton _beatDownButton{ "down" };
+
     juce::TextButton _playButton{ "play" };
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR( ArrangementNavigator )
