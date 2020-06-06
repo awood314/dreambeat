@@ -6,13 +6,52 @@ ArrangementNavigator::ArrangementNavigator( Arrangement& arrangement )
 : _arrangement( arrangement ), _playButton( "play", juce::DrawableButton::ImageFitted )
 {
     // navigator
-    addAndMakeVisible( _beatUpButton );
-    //    _beatUpButton.onClick = [this] () { arrangement.}
-    addAndMakeVisible( _beatLabel );
-    arrangement.newSequence.connect( [this]( int sequence ) {
-        _beatLabel.setText( juce::String( sequence + 1 ), juce::sendNotification );
+    std::vector<Arrangement::SequenceType> orderedTypes{ Arrangement::SequenceType::Section,
+                                                         Arrangement::SequenceType::Phrase,
+                                                         Arrangement::SequenceType::Bar,
+                                                         Arrangement::SequenceType::Beat };
+    for ( int i = 0; i < orderedTypes.size(); i++ )
+    {
+        auto type = orderedTypes[i];
+
+        // up button
+        auto* upButton =
+        new juce::DrawableButton( "up " + juce::String( i ), juce::DrawableButton::ImageFitted );
+        _sequenceUpButtons.add( upButton );
+        addAndMakeVisible( upButton );
+        upButton->onClick = [this, type]() { _arrangement.decrementSequence( type ); };
+        upButton->setImages( juce::Drawable::createFromImageData( BinaryData::caret_up_svg, BinaryData::caret_up_svgSize )
+                             .get() );
+        upButton->setEnabled( _arrangement.canDecrementSequence( type ) );
+
+        // label
+        auto* label = new juce::Label();
+        label->setFont( juce::Font( 24 ) );
+        label->setText( juce::String( 1 + _arrangement.getSequence( type ) ), juce::sendNotification );
+        label->setJustificationType( juce::Justification::centred );
+        _sequenceLabels.add( label );
+        addAndMakeVisible( label );
+
+        // down button
+        auto* downButton =
+        new juce::DrawableButton( "up " + juce::String( i ), juce::DrawableButton::ImageFitted );
+        _sequenceDownButtons.add( downButton );
+        addAndMakeVisible( downButton );
+        downButton->onClick = [this, type]() { _arrangement.incrementSequence( type ); };
+        downButton->setImages( juce::Drawable::createFromImageData( BinaryData::caret_down_svg, BinaryData::caret_down_svgSize )
+                               .get() );
+    }
+
+    // listen to arrangement for changes
+    _arrangement.newSequence.connect( [this, orderedTypes]( int ) {
+        for ( int i = 0; i < orderedTypes.size(); i++ )
+        {
+            auto type = orderedTypes[i];
+            _sequenceLabels[i]->setText( juce::String( 1 + _arrangement.getSequence( type ) ),
+                                         juce::sendNotification );
+            _sequenceUpButtons[i]->setEnabled( _arrangement.canDecrementSequence( type ) );
+        }
     } );
-    addAndMakeVisible( _beatDownButton );
 
     // play button
     addAndMakeVisible( _playButton );
@@ -29,7 +68,15 @@ ArrangementNavigator::ArrangementNavigator( Arrangement& arrangement )
 
 void ArrangementNavigator::resized()
 {
-    auto div = getHeight() / 3;
-    _beatLabel.setSize( getWidth() / 2, getHeight() );
-    _playButton.setBounds( getWidth() / 2, div, div, div );
+    auto rowHeight = getHeight() / 3;
+    auto rowWidth = getWidth() / _sequenceLabels.size();
+    auto buttonInsets = juce::jmin( rowHeight, rowWidth );
+    for ( int i = 0; i < _sequenceLabels.size(); i++ )
+    {
+        _sequenceUpButtons[i]->setEdgeIndent( buttonInsets );
+        _sequenceUpButtons[i]->setBounds( i * rowWidth, 0, rowWidth, rowHeight );
+        _sequenceLabels[i]->setBounds( i * rowWidth, rowHeight, rowWidth, rowHeight );
+        _sequenceDownButtons[i]->setEdgeIndent( buttonInsets );
+        _sequenceDownButtons[i]->setBounds( i * rowWidth, rowHeight * 2, rowWidth, rowHeight );
+    }
 }

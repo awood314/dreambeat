@@ -14,9 +14,10 @@ public:
 private:
     Arrangement& _arrangement;
 
-    juce::TextButton _beatUpButton{ "up" };
-    juce::Label _beatLabel;
-    juce::TextButton _beatDownButton{ "down" };
+    juce::OwnedArray<juce::DrawableButton> _sequenceUpButtons;
+    juce::OwnedArray<juce::Label> _sequenceLabels;
+    juce::OwnedArray<juce::DrawableButton> _sequenceDownButtons;
+    //    juce::DrawableButton                   _
 
     juce::DrawableButton _playButton;
 

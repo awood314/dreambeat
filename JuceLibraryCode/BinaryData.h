@@ -11,6 +11,12 @@ namespace BinaryData
     extern const char*   amen_wav;
     const int            amen_wavSize = 1236544;
 
+    extern const char*   caret_down_svg;
+    const int            caret_down_svgSize = 560;
+
+    extern const char*   caret_up_svg;
+    const int            caret_up_svgSize = 559;
+
     extern const char*   play_selected_svg;
     const int            play_selected_svgSize = 542;
 
@@ -18,7 +24,7 @@ namespace BinaryData
     const int            play_unselected_svgSize = 544;
 
     // Number of elements in the namedResourceList and originalFileNames arrays.
-    const int namedResourceListSize = 3;
+    const int namedResourceListSize = 5;
 
     // Points to the start of a list of resource names.
     extern const char* namedResourceList[];

@@ -8,6 +8,8 @@
         <FILE id="zlbcdL" name="amen.wav" compile="0" resource="1" file="assets/audio/amen.wav"/>
       </GROUP>
       <GROUP id="{23B6802E-DBD4-047B-593D-69A1ECB64F2B}" name="icons">
+        <FILE id="AId4zB" name="caret_down.svg" compile="0" resource="1" file="assets/icons/caret_down.svg"/>
+        <FILE id="gADnqB" name="caret_up.svg" compile="0" resource="1" file="assets/icons/caret_up.svg"/>
         <FILE id="Cw2SUB" name="play_selected.svg" compile="0" resource="1"
               file="assets/icons/play_selected.svg"/>
         <FILE id="qLUPsS" name="play_unselected.svg" compile="0" resource="1"
@@ -36,6 +38,9 @@
       <GROUP id="{3FA7D79A-8BA5-6260-71D9-9B929617E6DF}" name="ui">
         <FILE id="M4GCSM" name="ArrangementNavigator.cpp" compile="1" resource="0"
               file="src/ui/ArrangementNavigator.cpp"/>
+        <FILE id="FQW2Ml" name="SequenceItem.cpp" compile="1" resource="0"
+              file="src/ui/SequenceItem.cpp"/>
+        <FILE id="L18fcK" name="SequenceItem.h" compile="0" resource="0" file="src/ui/SequenceItem.h"/>
         <FILE id="z6ntJW" name="ArrangementNavigator.h" compile="0" resource="0"
               file="src/ui/ArrangementNavigator.h"/>
         <FILE id="Z60mIK" name="Colors.h" compile="0" resource="0" file="src/ui/Colors.h"/>
@@ -59,9 +64,6 @@
         <FILE id="Zg9tlk" name="Threading.h" compile="0" resource="0" file="src/util/Threading.h"/>
       </GROUP>
     </GROUP>
-    <FILE id="FQW2Ml" name="SequenceItem.cpp" compile="1" resource="0"
-          file="src/ui/SequenceItem.cpp"/>
-    <FILE id="L18fcK" name="SequenceItem.h" compile="0" resource="0" file="src/ui/SequenceItem.h"/>
   </MAINGROUP>
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX">
