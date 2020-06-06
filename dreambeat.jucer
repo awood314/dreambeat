@@ -59,6 +59,9 @@
         <FILE id="Zg9tlk" name="Threading.h" compile="0" resource="0" file="src/util/Threading.h"/>
       </GROUP>
     </GROUP>
+    <FILE id="FQW2Ml" name="SequenceItem.cpp" compile="1" resource="0"
+          file="src/ui/SequenceItem.cpp"/>
+    <FILE id="L18fcK" name="SequenceItem.h" compile="0" resource="0" file="src/ui/SequenceItem.h"/>
   </MAINGROUP>
   <EXPORTFORMATS>
     <XCODE_MAC targetFolder="Builds/MacOSX">

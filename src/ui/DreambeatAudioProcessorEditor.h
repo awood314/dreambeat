@@ -11,6 +11,7 @@ class DreambeatAudioProcessorEditor : public AudioProcessorEditor
 public:
     DreambeatAudioProcessorEditor( DreambeatAudioProcessor& p );
 
+    void paint( juce::Graphics& g ) override;
     void resized() override;
 
 private:

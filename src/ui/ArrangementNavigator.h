@@ -1,8 +1,8 @@
 
 #pragma once
 
-#include "../model/Arrangement.h"
 #include <JuceHeader.h>
+#include <model/Arrangement.h>
 
 class ArrangementNavigator : public juce::Component
 {

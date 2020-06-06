@@ -1,27 +1,30 @@
 
 #include "SequenceComponent.h"
+#include <ui/Colors.h>
 
 int NUM_NOTES = 8;
+int PADDING = 5;
 
 SequenceComponent::SequenceComponent( TrackSequence* track ) : _track( track )
 {
     for ( int i = 0; i < NUM_NOTES; i++ )
     {
-        auto* tb = new ToggleButton();
-        _notes.add( tb );
-        tb->onClick = [this, i]() {
+        auto* note = new SequenceItem( colors::black );
+        _notes.add( note );
+        note->onClick = [this, i]() {
             _track->setNote( i + _scene * NUM_NOTES, _notes[i]->getToggleState() );
         };
-        addAndMakeVisible( tb );
+        addAndMakeVisible( note );
     }
 }
 
 void SequenceComponent::resized()
 {
     auto div = getHeight() / NUM_NOTES;
+    auto size = juce::jmin( div, getWidth() ) - PADDING * 2;
     for ( int i = 0; i < NUM_NOTES; i++ )
     {
-        _notes[i]->setBounds( 0, i * div, getWidth(), div );
+        _notes[i]->setBounds( getWidth() - size - PADDING, div * i + PADDING, size, size );
     }
 }
 

@@ -1,6 +1,6 @@
 
 #include "DreambeatAudioProcessorEditor.h"
-#include "../ui/Colors.h"
+#include <ui/Colors.h>
 
 int NUM_TRACKS = 16;
 
@@ -40,7 +40,7 @@ DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProc
         {
             auto* sg = new SequenceGrid();
             _grids.add( sg );
-            _sequencerTabs.addTab( juce::String( grid ), juce::Colours::grey, sg, grid );
+            _sequencerTabs.addTab( juce::String( grid ), colors::grey, sg, grid );
         }
         _grids[grid]->addSequence( _app.getTrack( i ) );
     }
@@ -48,10 +48,16 @@ DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProc
     setSize( 360, 640 );
 }
 
+void DreambeatAudioProcessorEditor::paint( juce::Graphics& g )
+{
+    g.setColour( colors::grey );
+    g.fillRect( getLocalBounds() );
+}
+
 void DreambeatAudioProcessorEditor::resized()
 {
     auto div = getHeight() / 4;
-    _tempoSlider.setSize( getWidth(), div );
-    _sequencerTabs.setBounds( 0, div, getWidth(), div * 2 );
-    _nav.setBounds( 0, div * 3, getWidth(), div );
+    _tempoSlider.setSize( getWidth(), 40 );
+    _sequencerTabs.setBounds( 0, _tempoSlider.getHeight(), getWidth(), getWidth() );
+    _nav.setBounds( 0, _sequencerTabs.getBottom(), getWidth(), 150 );
 }

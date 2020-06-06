@@ -1,8 +1,9 @@
 
 #pragma once
 
-#include "../model/TrackSequence.h"
 #include <JuceHeader.h>
+#include <model/TrackSequence.h>
+#include <ui/SequenceItem.h>
 
 class SequenceComponent : public juce::Component
 {
@@ -16,7 +17,7 @@ public:
 private:
     int _scene{ 0 };
     TrackSequence* _track;
-    juce::OwnedArray<juce::ToggleButton> _notes;
+    juce::OwnedArray<SequenceItem> _notes;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR( SequenceComponent )
 };
