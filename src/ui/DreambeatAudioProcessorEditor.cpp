@@ -3,6 +3,7 @@
 #include <ui/Colors.h>
 
 int NUM_TRACKS = 16;
+int GRID_SIZE = 8;
 
 DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProcessor& p )
 : AudioProcessorEditor( &p ), _app( p.getApp() ), _sequencerTabs( juce::TabbedButtonBar::TabsAtTop ),
@@ -16,10 +17,9 @@ DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProc
     _playhead.setColour( juce::Label::backgroundColourId, colors::transparentWhite );
     _playhead.setInterceptsMouseClicks( false, false );
     p.getApp().getArrangement().newSequence.connect( [this]( int s ) {
-        auto* grid = _grids[_sequencerTabs.getCurrentTabIndex()];
-        grid->setScene( s / 8 );
-        auto div = grid->getHeight() / 8.0;
-        _playhead.setBounds( 0, grid->getY() + _sequencerTabs.getY() + ( s % 8 ) * div, getWidth(), div );
+        auto top = _sequencerTabs.getY() + _sequencerTabs.getTabBarDepth();
+        auto div = ( _sequencerTabs.getBottom() - top ) / GRID_SIZE;
+        _playhead.setBounds( 0, top + ( s % GRID_SIZE ) * div, getWidth(), div );
     } );
 
     // nav
@@ -32,22 +32,24 @@ DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProc
     addAndMakeVisible( _tempoSlider );
     _tempoSlider.setRange( 90, 180, 1 );
     _tempoSlider.onValueChange = [&p, this]() { p.getApp().updateTempo( _tempoSlider.getValue() ); };
-
+        
+    /////////////////////////////////////
     // slicing a sample
     _app.loadSample();
     for ( int i = 0; i < NUM_TRACKS; i++ )
     {
         // every 8 tracks gets a tab
-        int grid = i / 8;
+        int grid = i / GRID_SIZE;
         if ( grid >= _grids.size() )
         {
-            auto* sg = new SequenceGrid();
+            auto* sg = new SequenceGrid( _app.getArrangement() );
             _grids.add( sg );
             _sequencerTabs.addTab( juce::String( grid ), colors::grey, sg, grid );
         }
         _grids[grid]->addSequence( _app.getTrack( i ) );
     }
-
+    /////////////////////////////////////
+    
     setSize( 360, 640 );
 }
 

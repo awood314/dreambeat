@@ -12,7 +12,7 @@ SequenceComponent::SequenceComponent( TrackSequence* track ) : _track( track )
         auto* note = new SequenceItem( colors::black );
         _notes.add( note );
         note->onClick = [this, i]() {
-            _track->setNote( i + _scene * NUM_NOTES, _notes[i]->getToggleState() );
+            _track->setNote( i + _bar * NUM_NOTES, _notes[i]->getToggleState() );
         };
         addAndMakeVisible( note );
     }
@@ -28,11 +28,14 @@ void SequenceComponent::resized()
     }
 }
 
-void SequenceComponent::setScene( int scene )
+void SequenceComponent::setBar( int bar )
 {
-    _scene = scene;
-    for ( int i = 0; i < _notes.size(); i++ )
+    if ( _bar != bar )
     {
-        _notes[i]->setToggleState( _track->getNote( i + NUM_NOTES * scene ), juce::sendNotification );
+        _bar = bar;
+        for ( int i = 0; i < _notes.size(); i++ )
+        {
+            _notes[i]->setToggleState( _track->getNote( i + NUM_NOTES * bar ), juce::sendNotification );
+        }
     }
 }

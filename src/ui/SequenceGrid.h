@@ -1,22 +1,26 @@
 
 #pragma once
 
-#include "../model/TrackSequence.h"
+#include <model/Arrangement.h>
+#include <model/TrackSequence.h>
 #include "SequenceComponent.h"
 #include <JuceHeader.h>
 
 class SequenceGrid : public juce::Component
 {
 public:
-    SequenceGrid();
+    SequenceGrid( Arrangement& arrangement );
+    
     void resized() override;
-
+    void visibilityChanged() override;
+    
+    void refresh();
+    
     void addSequence( TrackSequence* track );
-    void setScene( int i );
 
 private:
     juce::OwnedArray<SequenceComponent> _sequences;
-    int _scene{ 0 };
+    Arrangement& _arrangement;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR( SequenceGrid )
 };

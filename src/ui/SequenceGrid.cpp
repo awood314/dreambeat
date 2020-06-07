@@ -3,8 +3,28 @@
 
 int NUM_GRID_TRACKS = 8;
 
-SequenceGrid::SequenceGrid()
+SequenceGrid::SequenceGrid( Arrangement& arrangement )
+: _arrangement( arrangement )
 {
+    arrangement.newSequence.connect( [this] ( int sequence ) {
+        refresh();
+    } );
+}
+
+void SequenceGrid::visibilityChanged()
+{
+    refresh();
+}
+
+void SequenceGrid::refresh()
+{
+    for ( int i = 0; i < NUM_GRID_TRACKS; i++ )
+    {
+        if ( i < _sequences.size() )
+        {
+            _sequences[i]->setBar( _arrangement.getSequence( Arrangement::SequenceType::Bar ) );
+        }
+    }
 }
 
 void SequenceGrid::resized()
@@ -15,18 +35,6 @@ void SequenceGrid::resized()
         if ( i < _sequences.size() )
         {
             _sequences[i]->setBounds( i * div, 0, div, getHeight() );
-        }
-    }
-}
-
-void SequenceGrid::setScene( int i )
-{
-    if ( i != _scene )
-    {
-        _scene = i;
-        for ( auto* sc : _sequences )
-        {
-            sc->setScene( i );
         }
     }
 }

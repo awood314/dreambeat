@@ -12,10 +12,10 @@ public:
 
     void resized() override;
 
-    void setScene( int scene );
+    void setBar( int bar );
 
 private:
-    int _scene{ 0 };
+    int _bar{ 0 };
     TrackSequence* _track;
     juce::OwnedArray<SequenceItem> _notes;
 
