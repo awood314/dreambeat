@@ -17,9 +17,6 @@ private:
     juce::OwnedArray<juce::DrawableButton> _sequenceUpButtons;
     juce::OwnedArray<juce::Label> _sequenceLabels;
     juce::OwnedArray<juce::DrawableButton> _sequenceDownButtons;
-    //    juce::DrawableButton                   _
-
-    juce::DrawableButton _playButton;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR( ArrangementNavigator )
 };

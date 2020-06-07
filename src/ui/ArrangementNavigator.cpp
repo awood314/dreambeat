@@ -2,8 +2,7 @@
 #include "ArrangementNavigator.h"
 #include <ui/Colors.h>
 
-ArrangementNavigator::ArrangementNavigator( Arrangement& arrangement )
-: _arrangement( arrangement ), _playButton( "play", juce::DrawableButton::ImageFitted )
+ArrangementNavigator::ArrangementNavigator( Arrangement& arrangement ) : _arrangement( arrangement )
 {
     // navigator
     std::vector<Arrangement::SequenceType> orderedTypes{ Arrangement::SequenceType::Section,
@@ -52,18 +51,6 @@ ArrangementNavigator::ArrangementNavigator( Arrangement& arrangement )
             _sequenceUpButtons[i]->setEnabled( _arrangement.canDecrementSequence( type ) );
         }
     } );
-
-    // play button
-    addAndMakeVisible( _playButton );
-    _playButton.setImages( juce::Drawable::createFromImageData( BinaryData::play_unselected_svg,
-                                                                BinaryData::play_unselected_svgSize )
-                           .get(),
-                           nullptr, nullptr, nullptr,
-                           juce::Drawable::createFromImageData( BinaryData::play_selected_svg, BinaryData::play_selected_svgSize )
-                           .get() );
-    _playButton.setClickingTogglesState( true );
-    _playButton.setColour( juce::DrawableButton::backgroundOnColourId, colors::transparent );
-    _playButton.onClick = [this]() { _arrangement.play(); };
 }
 
 void ArrangementNavigator::resized()

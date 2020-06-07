@@ -5,8 +5,8 @@
 int NUM_TRACKS = 16;
 
 DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProcessor& p )
-: AudioProcessorEditor( &p ), _app( p.getApp() ),
-  _sequencerTabs( juce::TabbedButtonBar::TabsAtTop ), _nav( p.getApp().getArrangement() )
+: AudioProcessorEditor( &p ), _app( p.getApp() ), _sequencerTabs( juce::TabbedButtonBar::TabsAtTop ),
+  _nav( p.getApp().getArrangement() ), _playControls( p.getApp().getArrangement() )
 {
     // tabs
     addAndMakeVisible( _sequencerTabs );
@@ -24,6 +24,9 @@ DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProc
 
     // nav
     addAndMakeVisible( _nav );
+
+    // play controls
+    addAndMakeVisible( _playControls );
 
     // tempo
     addAndMakeVisible( _tempoSlider );
@@ -56,8 +59,8 @@ void DreambeatAudioProcessorEditor::paint( juce::Graphics& g )
 
 void DreambeatAudioProcessorEditor::resized()
 {
-    auto div = getHeight() / 4;
     _tempoSlider.setSize( getWidth(), 40 );
     _sequencerTabs.setBounds( 0, _tempoSlider.getHeight(), getWidth(), getWidth() );
     _nav.setBounds( 0, _sequencerTabs.getBottom(), getWidth(), 150 );
+    _playControls.setBounds( 0, _nav.getBottom(), getWidth(), getHeight() - _nav.getBottom() );
 }

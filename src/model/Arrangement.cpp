@@ -11,8 +11,8 @@ void Arrangement::timerCallback()
 {
     if ( _transport != nullptr )
     {
-        double sequence = _transport->getCurrentPosition() * 16.0 / _transport->getLoopRange().getEnd();
-        if ( _transport->isPlaying() && sequence > _sequence )
+        int sequence = _transport->getCurrentPosition() * 16.0 / _transport->getLoopRange().getEnd();
+        if ( sequence != _sequence )
         {
             _sequence = sequence;
             newSequence( _sequence );
@@ -29,6 +29,7 @@ void Arrangement::play()
 {
     if ( _transport != nullptr )
     {
+        _transport->setCurrentPosition( 0 );
         if ( _transport->isPlaying() )
         {
             _transport->stop( false, false );
@@ -36,7 +37,6 @@ void Arrangement::play()
         }
         else
         {
-            _transport->setCurrentPosition( 0 );
             _transport->play( false );
             playPause( true );
         }
@@ -60,7 +60,8 @@ void Arrangement::incrementSequence( Arrangement::SequenceType type )
 {
     if ( type != Arrangement::SequenceType::Section )
     {
-        updateSequence( _sequence + _sequencesPerType[type] );
+
+        updateSequence( _sequence + _sequencesPerType[type] - _sequence % _sequencesPerType[type] );
     }
 }
 
@@ -68,9 +69,17 @@ void Arrangement::decrementSequence( Arrangement::SequenceType type )
 {
     if ( type != Arrangement::SequenceType::Section )
     {
-        if ( _sequence >= _sequencesPerType[type] )
+        if ( _sequence > 0 )
         {
-            updateSequence( _sequence - _sequencesPerType[type] );
+            int diff = _sequence % _sequencesPerType[type];
+            if ( diff )
+            {
+                updateSequence( _sequence - diff );
+            }
+            else
+            {
+                updateSequence( _sequence - _sequencesPerType[type] );
+            }
         }
     }
 }
@@ -79,7 +88,7 @@ bool Arrangement::canDecrementSequence( Arrangement::SequenceType type )
 {
     if ( type != Arrangement::SequenceType::Section )
     {
-        return _sequence >= _sequencesPerType[type];
+        return _sequence > 0;
     }
     return false;
 }
@@ -87,6 +96,6 @@ bool Arrangement::canDecrementSequence( Arrangement::SequenceType type )
 void Arrangement::updateSequence( int sequence )
 {
     _sequence = sequence;
-    _transport->setCurrentPosition( sequence * _transport->getLoopRange().getEnd() / 16.0 );
+    _transport->setCurrentPosition( sequence * _transport->getLoopRange().getEnd() / 16.0 + .00001 );
     newSequence( _sequence );
 }

@@ -1,9 +1,11 @@
 
 #pragma once
 
-#include "../model/DreambeatAudioProcessor.h"
-#include "ArrangementNavigator.h"
-#include "SequenceGrid.h"
+#include <model/DreambeatAudioProcessor.h>
+#include <ui/ArrangementNavigator.h>
+#include <ui/PlayControls.h>
+#include <ui/SequenceGrid.h>
+
 #include <JuceHeader.h>
 
 class DreambeatAudioProcessorEditor : public AudioProcessorEditor
@@ -17,11 +19,13 @@ public:
 private:
     DreambeatApp& _app;
 
+    juce::Slider _tempoSlider;
+
     juce::TabbedComponent _sequencerTabs;
     juce::OwnedArray<SequenceGrid> _grids;
     juce::Label _playhead;
     ArrangementNavigator _nav;
-    juce::Slider _tempoSlider;
+    PlayControls _playControls;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR( DreambeatAudioProcessorEditor )
 };

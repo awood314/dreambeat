@@ -40,6 +40,6 @@ private:
 
     int _sequence{ 0 };
 
-    std::vector<int> _sequencesPerType{ 2, 8, 32 };
+    std::vector<int> _sequencesPerType{ 1, 8, 32 };
     std::vector<int> _sections;
 };
