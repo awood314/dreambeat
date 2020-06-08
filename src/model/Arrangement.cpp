@@ -4,43 +4,11 @@
 
 Arrangement::Arrangement()
 {
-    startTimer( 50 );
 }
 
-void Arrangement::timerCallback()
-{
-    if ( _transport != nullptr )
-    {
-        int sequence = _transport->getCurrentPosition() * 16.0 / _transport->getLoopRange().getEnd();
-        if ( sequence != _sequence )
-        {
-            _sequence = sequence;
-            newSequence( _sequence );
-        }
-    }
-}
-
-void Arrangement::setTransport( tracktion_engine::TransportControl* transport )
-{
-    _transport = transport;
-}
 
 void Arrangement::play()
 {
-    if ( _transport != nullptr )
-    {
-        _transport->setCurrentPosition( 0 );
-        if ( _transport->isPlaying() )
-        {
-            _transport->stop( false, false );
-            playPause( false );
-        }
-        else
-        {
-            _transport->play( false );
-            playPause( true );
-        }
-    }
 }
 
 int Arrangement::getSequence( Arrangement::SequenceType type )
@@ -96,6 +64,5 @@ bool Arrangement::canDecrementSequence( Arrangement::SequenceType type )
 void Arrangement::updateSequence( int sequence )
 {
     _sequence = sequence;
-    _transport->setCurrentPosition( sequence * _transport->getLoopRange().getEnd() / 16.0 + .00001 );
     newSequence( _sequence );
 }

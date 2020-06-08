@@ -18,12 +18,10 @@ void SequenceGrid::visibilityChanged()
 
 void SequenceGrid::refresh()
 {
-    for ( int i = 0; i < NUM_GRID_TRACKS; i++ )
+    int bar = _arrangement.getSequence( Arrangement::SequenceType::Bar );
+    for ( auto* sequence : _sequences )
     {
-        if ( i < _sequences.size() )
-        {
-            _sequences[i]->setBar( _arrangement.getSequence( Arrangement::SequenceType::Bar ) );
-        }
+        sequence->setBar( bar );
     }
 }
 

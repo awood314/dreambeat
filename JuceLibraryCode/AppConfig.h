@@ -20,6 +20,8 @@
 
 // [END_USER_CODE_SECTION]
 
+#include "JucePluginDefines.h"
+
 /*
   ==============================================================================
 
@@ -39,15 +41,11 @@
  #define JUCE_DISPLAY_SPLASH_SCREEN 1
 #endif
 
-#ifndef JUCE_REPORT_APP_USAGE
- #define JUCE_REPORT_APP_USAGE 1
-#endif
-
 // END SECTION A
 
 #define JUCE_USE_DARK_SPLASH_SCREEN 1
 
-#define JUCE_PROJUCER_VERSION 0x50407
+#define JUCE_PROJUCER_VERSION 0x60000
 
 //==============================================================================
 #define JUCE_MODULE_AVAILABLE_juce_audio_basics             1
@@ -66,7 +64,6 @@
 #define JUCE_MODULE_AVAILABLE_juce_gui_extra                1
 #define JUCE_MODULE_AVAILABLE_juce_opengl                   1
 #define JUCE_MODULE_AVAILABLE_juce_osc                      1
-#define JUCE_MODULE_AVAILABLE_tracktion_engine              1
 
 #define JUCE_GLOBAL_MODULE_SETTINGS_INCLUDED 1
 
@@ -106,7 +103,11 @@
 #endif
 
 #ifndef    JUCE_USE_ANDROID_OBOE
- //#define JUCE_USE_ANDROID_OBOE 0
+ //#define JUCE_USE_ANDROID_OBOE 1
+#endif
+
+#ifndef    JUCE_USE_OBOE_STABILIZED_CALLBACK
+ //#define JUCE_USE_OBOE_STABILIZED_CALLBACK 0
 #endif
 
 #ifndef    JUCE_USE_ANDROID_OPENSLES
@@ -186,6 +187,10 @@
  //#define JUCE_PLUGINHOST_LADSPA 0
 #endif
 
+#ifndef    JUCE_CUSTOM_VST3_SDK
+ //#define JUCE_CUSTOM_VST3_SDK 0
+#endif
+
 //==============================================================================
 // juce_audio_utils flags:
 
@@ -238,6 +243,10 @@
 
 #ifndef    JUCE_STRICT_REFCOUNTEDPOINTER
  #define   JUCE_STRICT_REFCOUNTEDPOINTER 1
+#endif
+
+#ifndef    JUCE_ENABLE_ALLOCATION_HOOKS
+ //#define JUCE_ENABLE_ALLOCATION_HOOKS 0
 #endif
 
 //==============================================================================
@@ -323,222 +332,12 @@
  //#define JUCE_WEB_BROWSER 1
 #endif
 
+#ifndef    JUCE_USE_WINRT_WEBVIEW
+ //#define JUCE_USE_WINRT_WEBVIEW 0
+#endif
+
 #ifndef    JUCE_ENABLE_LIVE_CONSTANT_EDITOR
  //#define JUCE_ENABLE_LIVE_CONSTANT_EDITOR 0
-#endif
-
-//==============================================================================
-// tracktion_engine flags:
-
-#ifndef    TRACKTION_ENABLE_SINGLETONS
- //#define TRACKTION_ENABLE_SINGLETONS 0
-#endif
-
-#ifndef    TRACKTION_ENABLE_ARA
- //#define TRACKTION_ENABLE_ARA 0
-#endif
-
-#ifndef    TRACKTION_ENABLE_REWIRE
- //#define TRACKTION_ENABLE_REWIRE 0
-#endif
-
-#ifndef    TRACKTION_ENABLE_AUTOMAP
- //#define TRACKTION_ENABLE_AUTOMAP 0
-#endif
-
-#ifndef    TRACKTION_ENABLE_VIDEO
- //#define TRACKTION_ENABLE_VIDEO 0
-#endif
-
-#ifndef    TRACKTION_ENABLE_REX
- //#define TRACKTION_ENABLE_REX 0
-#endif
-
-#ifndef    TRACKTION_ENABLE_CONTROL_SURFACES
- //#define TRACKTION_ENABLE_CONTROL_SURFACES 0
-#endif
-
-#ifndef    TRACKTION_ENABLE_CONTROL_SURFACE_MACKIEC4
- //#define TRACKTION_ENABLE_CONTROL_SURFACE_MACKIEC4 0
-#endif
-
-#ifndef    TRACKTION_ENABLE_TIMESTRETCH_ELASTIQUE
- //#define TRACKTION_ENABLE_TIMESTRETCH_ELASTIQUE 0
-#endif
-
-#ifndef    TRACKTION_ENABLE_TIMESTRETCH_SOUNDTOUCH
- #define   TRACKTION_ENABLE_TIMESTRETCH_SOUNDTOUCH 1
-#endif
-
-#ifndef    TRACKTION_ENABLE_ABLETON_LINK
- //#define TRACKTION_ENABLE_ABLETON_LINK 0
-#endif
-
-#ifndef    TRACKTION_UNIT_TESTS
- //#define TRACKTION_UNIT_TESTS 0
-#endif
-
-#ifndef    TRACKTION_CHECK_FOR_SLOW_RENDERING
- //#define TRACKTION_CHECK_FOR_SLOW_RENDERING 0
-#endif
-
-#ifndef    TRACKTION_AIR_WINDOWS
- //#define TRACKTION_AIR_WINDOWS 0
-#endif
-
-#ifndef    ENABLE_EXPERIMENTAL_TRACKTION_GRAPH
- //#define ENABLE_EXPERIMENTAL_TRACKTION_GRAPH 0
-#endif
-
-//==============================================================================
-// Audio plugin settings..
-
-#ifndef  JucePlugin_Build_VST
- #define JucePlugin_Build_VST              0
-#endif
-#ifndef  JucePlugin_Build_VST3
- #define JucePlugin_Build_VST3             1
-#endif
-#ifndef  JucePlugin_Build_AU
- #define JucePlugin_Build_AU               1
-#endif
-#ifndef  JucePlugin_Build_AUv3
- #define JucePlugin_Build_AUv3             0
-#endif
-#ifndef  JucePlugin_Build_RTAS
- #define JucePlugin_Build_RTAS             0
-#endif
-#ifndef  JucePlugin_Build_AAX
- #define JucePlugin_Build_AAX              0
-#endif
-#ifndef  JucePlugin_Build_Standalone
- #define JucePlugin_Build_Standalone       1
-#endif
-#ifndef  JucePlugin_Build_Unity
- #define JucePlugin_Build_Unity            0
-#endif
-#ifndef  JucePlugin_Enable_IAA
- #define JucePlugin_Enable_IAA             0
-#endif
-#ifndef  JucePlugin_Name
- #define JucePlugin_Name                   "dreambeat"
-#endif
-#ifndef  JucePlugin_Desc
- #define JucePlugin_Desc                   "dreambeat"
-#endif
-#ifndef  JucePlugin_Manufacturer
- #define JucePlugin_Manufacturer           "yourcompany"
-#endif
-#ifndef  JucePlugin_ManufacturerWebsite
- #define JucePlugin_ManufacturerWebsite    ""
-#endif
-#ifndef  JucePlugin_ManufacturerEmail
- #define JucePlugin_ManufacturerEmail      ""
-#endif
-#ifndef  JucePlugin_ManufacturerCode
- #define JucePlugin_ManufacturerCode       0x4d616e75 // 'Manu'
-#endif
-#ifndef  JucePlugin_PluginCode
- #define JucePlugin_PluginCode             0x44767468 // 'Dvth'
-#endif
-#ifndef  JucePlugin_IsSynth
- #define JucePlugin_IsSynth                0
-#endif
-#ifndef  JucePlugin_WantsMidiInput
- #define JucePlugin_WantsMidiInput         0
-#endif
-#ifndef  JucePlugin_ProducesMidiOutput
- #define JucePlugin_ProducesMidiOutput     0
-#endif
-#ifndef  JucePlugin_IsMidiEffect
- #define JucePlugin_IsMidiEffect           0
-#endif
-#ifndef  JucePlugin_EditorRequiresKeyboardFocus
- #define JucePlugin_EditorRequiresKeyboardFocus  0
-#endif
-#ifndef  JucePlugin_Version
- #define JucePlugin_Version                1.0.0
-#endif
-#ifndef  JucePlugin_VersionCode
- #define JucePlugin_VersionCode            0x10000
-#endif
-#ifndef  JucePlugin_VersionString
- #define JucePlugin_VersionString          "1.0.0"
-#endif
-#ifndef  JucePlugin_VSTUniqueID
- #define JucePlugin_VSTUniqueID            JucePlugin_PluginCode
-#endif
-#ifndef  JucePlugin_VSTCategory
- #define JucePlugin_VSTCategory            kPlugCategEffect
-#endif
-#ifndef  JucePlugin_Vst3Category
- #define JucePlugin_Vst3Category           "Fx"
-#endif
-#ifndef  JucePlugin_AUMainType
- #define JucePlugin_AUMainType             'aufx'
-#endif
-#ifndef  JucePlugin_AUSubType
- #define JucePlugin_AUSubType              JucePlugin_PluginCode
-#endif
-#ifndef  JucePlugin_AUExportPrefix
- #define JucePlugin_AUExportPrefix         dreambeatAU
-#endif
-#ifndef  JucePlugin_AUExportPrefixQuoted
- #define JucePlugin_AUExportPrefixQuoted   "dreambeatAU"
-#endif
-#ifndef  JucePlugin_AUManufacturerCode
- #define JucePlugin_AUManufacturerCode     JucePlugin_ManufacturerCode
-#endif
-#ifndef  JucePlugin_CFBundleIdentifier
- #define JucePlugin_CFBundleIdentifier     com.yourcompany.dreambeat
-#endif
-#ifndef  JucePlugin_RTASCategory
- #define JucePlugin_RTASCategory           0
-#endif
-#ifndef  JucePlugin_RTASManufacturerCode
- #define JucePlugin_RTASManufacturerCode   JucePlugin_ManufacturerCode
-#endif
-#ifndef  JucePlugin_RTASProductId
- #define JucePlugin_RTASProductId          JucePlugin_PluginCode
-#endif
-#ifndef  JucePlugin_RTASDisableBypass
- #define JucePlugin_RTASDisableBypass      0
-#endif
-#ifndef  JucePlugin_RTASDisableMultiMono
- #define JucePlugin_RTASDisableMultiMono   0
-#endif
-#ifndef  JucePlugin_AAXIdentifier
- #define JucePlugin_AAXIdentifier          com.yourcompany.dreambeat
-#endif
-#ifndef  JucePlugin_AAXManufacturerCode
- #define JucePlugin_AAXManufacturerCode    JucePlugin_ManufacturerCode
-#endif
-#ifndef  JucePlugin_AAXProductId
- #define JucePlugin_AAXProductId           JucePlugin_PluginCode
-#endif
-#ifndef  JucePlugin_AAXCategory
- #define JucePlugin_AAXCategory            0
-#endif
-#ifndef  JucePlugin_AAXDisableBypass
- #define JucePlugin_AAXDisableBypass       0
-#endif
-#ifndef  JucePlugin_AAXDisableMultiMono
- #define JucePlugin_AAXDisableMultiMono    0
-#endif
-#ifndef  JucePlugin_IAAType
- #define JucePlugin_IAAType                0x61757278 // 'aurx'
-#endif
-#ifndef  JucePlugin_IAASubType
- #define JucePlugin_IAASubType             JucePlugin_PluginCode
-#endif
-#ifndef  JucePlugin_IAAName
- #define JucePlugin_IAAName                "yourcompany: dreambeat"
-#endif
-#ifndef  JucePlugin_VSTNumMidiInputs
- #define JucePlugin_VSTNumMidiInputs       16
-#endif
-#ifndef  JucePlugin_VSTNumMidiOutputs
- #define JucePlugin_VSTNumMidiOutputs      16
 #endif
 
 //==============================================================================

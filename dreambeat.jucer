@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <JUCERPROJECT id="dVTH39" name="dreambeat" projectType="audioplug" jucerVersion="5.4.7"
-              headerPath="../../lib&#10;../../src">
+              headerPath="../../lib&#10;../../src" displaySplashScreen="1">
   <MAINGROUP id="jm1isc" name="dreambeat">
     <GROUP id="{A4309A3F-309C-DAD7-CEBC-B0614238EB70}" name="assets">
       <GROUP id="{760991DA-08DE-81CE-52E3-021276A35018}" name="audio">
@@ -27,12 +27,6 @@
               file="src/model/DreambeatAudioProcessor.cpp"/>
         <FILE id="qXVMI8" name="DreambeatAudioProcessor.h" compile="0" resource="0"
               file="src/model/DreambeatAudioProcessor.h"/>
-        <FILE id="tkshsq" name="DreambeatEngine.cpp" compile="1" resource="0"
-              file="src/model/DreambeatEngine.cpp"/>
-        <FILE id="rJz1bp" name="DreambeatEngine.h" compile="0" resource="0"
-              file="src/model/DreambeatEngine.h"/>
-        <FILE id="G3urA0" name="Playback.cpp" compile="1" resource="0" file="src/model/Playback.cpp"/>
-        <FILE id="jqVvkQ" name="Playback.h" compile="0" resource="0" file="src/model/Playback.h"/>
         <FILE id="Ps30vi" name="TrackSequence.cpp" compile="1" resource="0"
               file="src/model/TrackSequence.cpp"/>
         <FILE id="c7zXPQ" name="TrackSequence.h" compile="0" resource="0" file="src/model/TrackSequence.h"/>
@@ -77,23 +71,22 @@
         <CONFIGURATION isDebug="0" name="Release"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_audio_basics" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_audio_devices" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_audio_formats" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_audio_plugin_client" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_audio_processors" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_audio_utils" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_core" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_cryptography" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_data_structures" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_events" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_graphics" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_opengl" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="tracktion_engine" path="lib/tracktion_engine/modules"/>
-        <MODULEPATH id="juce_dsp" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_osc" path="lib/tracktion_engine/modules/juce/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_core" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_cryptography" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_data_structures" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_events" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_graphics" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_opengl" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_dsp" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_osc" path="lib/juce/modules"/>
       </MODULEPATHS>
     </XCODE_MAC>
     <XCODE_IPHONE targetFolder="Builds/iOS">
@@ -102,23 +95,22 @@
         <CONFIGURATION isDebug="0" name="Release"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_audio_basics" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_audio_devices" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_audio_formats" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_audio_plugin_client" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_audio_processors" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_audio_utils" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_core" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_cryptography" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_data_structures" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_events" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_graphics" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_opengl" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="tracktion_engine" path="lib/tracktion_engine/modules"/>
-        <MODULEPATH id="juce_dsp" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_osc" path="lib/tracktion_engine/modules/juce/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_core" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_cryptography" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_data_structures" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_events" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_graphics" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_opengl" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_dsp" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_osc" path="lib/juce/modules"/>
       </MODULEPATHS>
     </XCODE_IPHONE>
     <ANDROIDSTUDIO targetFolder="Builds/Android">
@@ -127,23 +119,22 @@
         <CONFIGURATION isDebug="0" name="Release"/>
       </CONFIGURATIONS>
       <MODULEPATHS>
-        <MODULEPATH id="juce_audio_basics" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_audio_devices" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_audio_formats" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_audio_plugin_client" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_audio_processors" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_audio_utils" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_core" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_cryptography" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_data_structures" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_events" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_graphics" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_gui_basics" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_gui_extra" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_opengl" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="tracktion_engine" path="lib/tracktion_engine/modules"/>
-        <MODULEPATH id="juce_dsp" path="lib/tracktion_engine/modules/juce/modules"/>
-        <MODULEPATH id="juce_osc" path="lib/tracktion_engine/modules/juce/modules"/>
+        <MODULEPATH id="juce_audio_basics" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_audio_devices" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_audio_formats" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_audio_plugin_client" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_audio_processors" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_audio_utils" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_core" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_cryptography" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_data_structures" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_events" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_graphics" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_gui_basics" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_gui_extra" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_opengl" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_dsp" path="lib/juce/modules"/>
+        <MODULEPATH id="juce_osc" path="lib/juce/modules"/>
       </MODULEPATHS>
     </ANDROIDSTUDIO>
   </EXPORTFORMATS>
@@ -165,7 +156,6 @@
     <MODULE id="juce_gui_extra" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
     <MODULE id="juce_opengl" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
     <MODULE id="juce_osc" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
-    <MODULE id="tracktion_engine" showAllCode="1" useLocalCopy="0" useGlobalPath="0"/>
   </MODULES>
   <LIVE_SETTINGS>
     <OSX/>

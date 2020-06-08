@@ -4,7 +4,7 @@
 #include <JuceHeader.h>
 #include <nod/nod.hpp>
 
-class Arrangement : public juce::Timer
+class Arrangement
 {
 public:
     enum SequenceType
@@ -16,10 +16,6 @@ public:
     };
 
     Arrangement();
-
-    void timerCallback() override;
-
-    void setTransport( tracktion_engine::TransportControl* transport );
 
     void play();
 
@@ -33,8 +29,6 @@ public:
 
 private:
     void updateSequence( int sequence );
-
-    tracktion_engine::TransportControl* _transport{ nullptr };
 
     bool _playing{ false };
 
