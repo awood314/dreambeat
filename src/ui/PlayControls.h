@@ -2,17 +2,17 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include <model/Arrangement.h>
+#include <model/Playback.h>
 
 class PlayControls : public juce::Component
 {
 public:
-    PlayControls( Arrangement& arrangement );
+    PlayControls( Playback& playback );
 
     void resized() override;
 
 private:
-    Arrangement& _arrangement;
+    Playback& _playback;
 
     juce::DrawableButton _playButton;
 

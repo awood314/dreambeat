@@ -2,8 +2,8 @@
 #include "PlayControls.h"
 #include <ui/Colors.h>
 
-PlayControls::PlayControls( Arrangement& arrangement )
-: _arrangement( arrangement ), _playButton( "play", juce::DrawableButton::ImageFitted )
+PlayControls::PlayControls( Playback& playback )
+: _playback( playback ), _playButton( "play", juce::DrawableButton::ImageFitted )
 {
 
     // play button
@@ -16,7 +16,7 @@ PlayControls::PlayControls( Arrangement& arrangement )
                            .get() );
     _playButton.setClickingTogglesState( true );
     _playButton.setColour( juce::DrawableButton::backgroundOnColourId, colors::transparent );
-    _playButton.onClick = [this]() { _arrangement.play(); };
+    _playButton.onClick = [this]() { _playback.play(); };
 }
 
 void PlayControls::resized()

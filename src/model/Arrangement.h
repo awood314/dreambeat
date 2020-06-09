@@ -1,39 +1,17 @@
 
 #pragma once
 
-#include <JuceHeader.h>
-#include <nod/nod.hpp>
+#include <set>
+#include <unordered_map>
 
 class Arrangement
 {
 public:
-    enum SequenceType
-    {
-        Beat = 0,
-        Bar = 1,
-        Phrase = 2,
-        Section = 3
-    };
+    Arrangement() = default;
 
-    Arrangement();
-
-    void play();
-
-    int getSequence( SequenceType type );
-    void incrementSequence( SequenceType type );
-    void decrementSequence( SequenceType type );
-    bool canDecrementSequence( SequenceType type );
-
-    nod::unsafe_signal<void( int )> newSequence;
-    nod::unsafe_signal<void( bool )> playPause;
+    std::set<int>& getNotes( int sequence );
+    void setNote( int track, int sequence, bool value );
 
 private:
-    void updateSequence( int sequence );
-
-    bool _playing{ false };
-
-    int _sequence{ 0 };
-
-    std::vector<int> _sequencesPerType{ 1, 8, 32 };
-    std::vector<int> _sections;
+    std::unordered_map<int, std::set<int>> _notes;
 };

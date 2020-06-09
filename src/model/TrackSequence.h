@@ -6,10 +6,10 @@
 class TrackSequence
 {
 public:
-    TrackSequence();
+    TrackSequence( juce::AudioFormatReader* reader, int slices, int index );
 
-    void setNote( int note, bool value );
-    bool getNote( int note );
+    int applyToBuffer( juce::AudioBuffer<float>& buffer, int position, int numInputChannels, int numOutputChannels );
 
 private:
+    juce::AudioSampleBuffer _sampleBuffer;
 };

@@ -1,14 +1,15 @@
 
 #include "SequenceGrid.h"
+#include <ui/Colors.h>
 
-int NUM_GRID_TRACKS = 8;
+int GRID_SIZE = 8;
+int PADDING = 5;
 
-SequenceGrid::SequenceGrid( Arrangement& arrangement )
-: _arrangement( arrangement )
+SequenceGrid::SequenceGrid( Arrangement& arrangement ) : _arrangement( arrangement )
 {
-    arrangement.newSequence.connect( [this] ( int sequence ) {
-        refresh();
-    } );
+    //    arrangement.newSequence.connect( [this] ( int sequence ) {
+    //        refresh();
+    //    } );
 }
 
 void SequenceGrid::visibilityChanged()
@@ -18,28 +19,41 @@ void SequenceGrid::visibilityChanged()
 
 void SequenceGrid::refresh()
 {
-    int bar = _arrangement.getSequence( Arrangement::SequenceType::Bar );
-    for ( auto* sequence : _sequences )
+    for ( int i = 0; i < _sequences.size(); i++ )
     {
-        sequence->setBar( bar );
+        for ( int j = 0; j < _sequences[i]->size(); j++ )
+        {
+            _sequences[i]->getUnchecked( j )->setToggleState( _arrangement.getNotes( j ).count( i ),
+                                                              juce::sendNotification );
+        }
     }
 }
 
 void SequenceGrid::resized()
 {
-    auto div = getWidth() / NUM_GRID_TRACKS;
-    for ( int i = 0; i < NUM_GRID_TRACKS; i++ )
+    auto width = getWidth() / GRID_SIZE;
+    auto height = getHeight() / GRID_SIZE;
+    for ( int i = 0; i < _sequences.size(); i++ )
     {
-        if ( i < _sequences.size() )
+        auto* sequence = _sequences[i];
+        for ( int j = 0; j < sequence->size(); j++ )
         {
-            _sequences[i]->setBounds( i * div, 0, div, getHeight() );
+            sequence->getUnchecked( j )->setBounds( i * width + PADDING, j * height + PADDING,
+                                                    width - PADDING * 2, height - PADDING * 2 );
         }
     }
 }
 
-void SequenceGrid::addSequence( TrackSequence* track )
+void SequenceGrid::addSequence()
 {
-    auto* sc = new SequenceComponent( track );
-    _sequences.add( sc );
-    addAndMakeVisible( sc );
+    int i = _sequences.size();
+    auto sequence = _sequences.add( new juce::OwnedArray<SequenceItem>() );
+    for ( int j = 0; j < GRID_SIZE; j++ )
+    {
+        auto* item = sequence->add( new SequenceItem( colors::black ) );
+        item->onClick = [this, i, j, item]() {
+            _arrangement.setNote( i, j, item->getToggleState() );
+        };
+        addAndMakeVisible( item );
+    }
 }

@@ -2,8 +2,8 @@
 #pragma once
 
 #include <model/DreambeatAudioProcessor.h>
-#include <ui/ArrangementNavigator.h>
 #include <ui/PlayControls.h>
+#include <ui/PlaybackNavigator.h>
 #include <ui/SequenceGrid.h>
 
 #include <JuceHeader.h>
@@ -24,7 +24,7 @@ private:
     juce::TabbedComponent _sequencerTabs;
     juce::OwnedArray<SequenceGrid> _grids;
     juce::Label _playhead;
-    ArrangementNavigator _nav;
+    PlaybackNavigator _nav;
     PlayControls _playControls;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR( DreambeatAudioProcessorEditor )

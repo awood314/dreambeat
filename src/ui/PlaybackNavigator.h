@@ -2,21 +2,21 @@
 #pragma once
 
 #include <JuceHeader.h>
-#include <model/Arrangement.h>
+#include <model/Playback.h>
 
-class ArrangementNavigator : public juce::Component
+class PlaybackNavigator : public juce::Component
 {
 public:
-    ArrangementNavigator( Arrangement& arrangement );
+    PlaybackNavigator( Playback& playback );
 
     void resized() override;
 
 private:
-    Arrangement& _arrangement;
+    Playback& _playback;
 
     juce::OwnedArray<juce::DrawableButton> _sequenceUpButtons;
     juce::OwnedArray<juce::Label> _sequenceLabels;
     juce::OwnedArray<juce::DrawableButton> _sequenceDownButtons;
 
-    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR( ArrangementNavigator )
+    JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR( PlaybackNavigator )
 };

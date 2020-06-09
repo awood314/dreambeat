@@ -27,30 +27,28 @@
               file="src/model/DreambeatAudioProcessor.cpp"/>
         <FILE id="qXVMI8" name="DreambeatAudioProcessor.h" compile="0" resource="0"
               file="src/model/DreambeatAudioProcessor.h"/>
+        <FILE id="zv2Qcs" name="Playback.cpp" compile="1" resource="0" file="src/model/Playback.cpp"/>
+        <FILE id="QW35Mc" name="Playback.h" compile="0" resource="0" file="src/model/Playback.h"/>
         <FILE id="Ps30vi" name="TrackSequence.cpp" compile="1" resource="0"
               file="src/model/TrackSequence.cpp"/>
         <FILE id="c7zXPQ" name="TrackSequence.h" compile="0" resource="0" file="src/model/TrackSequence.h"/>
       </GROUP>
       <GROUP id="{3FA7D79A-8BA5-6260-71D9-9B929617E6DF}" name="ui">
+        <FILE id="nWQG80" name="PlaybackNavigator.cpp" compile="1" resource="0"
+              file="src/ui/PlaybackNavigator.cpp"/>
+        <FILE id="F4bZeP" name="PlaybackNavigator.h" compile="0" resource="0"
+              file="src/ui/PlaybackNavigator.h"/>
         <FILE id="YIxQGg" name="PlayControls.h" compile="0" resource="0" file="src/ui/PlayControls.h"/>
         <FILE id="oh58oA" name="PlayControls.cpp" compile="1" resource="0"
               file="src/ui/PlayControls.cpp"/>
-        <FILE id="M4GCSM" name="ArrangementNavigator.cpp" compile="1" resource="0"
-              file="src/ui/ArrangementNavigator.cpp"/>
         <FILE id="FQW2Ml" name="SequenceItem.cpp" compile="1" resource="0"
               file="src/ui/SequenceItem.cpp"/>
         <FILE id="L18fcK" name="SequenceItem.h" compile="0" resource="0" file="src/ui/SequenceItem.h"/>
-        <FILE id="z6ntJW" name="ArrangementNavigator.h" compile="0" resource="0"
-              file="src/ui/ArrangementNavigator.h"/>
         <FILE id="Z60mIK" name="Colors.h" compile="0" resource="0" file="src/ui/Colors.h"/>
         <FILE id="HtCIQa" name="DreambeatAudioProcessorEditor.cpp" compile="1"
               resource="0" file="src/ui/DreambeatAudioProcessorEditor.cpp"/>
         <FILE id="EZLokc" name="DreambeatAudioProcessorEditor.h" compile="0"
               resource="0" file="src/ui/DreambeatAudioProcessorEditor.h"/>
-        <FILE id="P9fb36" name="SequenceComponent.cpp" compile="1" resource="0"
-              file="src/ui/SequenceComponent.cpp"/>
-        <FILE id="K4F2RY" name="SequenceComponent.h" compile="0" resource="0"
-              file="src/ui/SequenceComponent.h"/>
         <FILE id="olUPwH" name="SequenceGrid.cpp" compile="1" resource="0"
               file="src/ui/SequenceGrid.cpp"/>
         <FILE id="Pa7n05" name="SequenceGrid.h" compile="0" resource="0" file="src/ui/SequenceGrid.h"/>
