@@ -10,12 +10,18 @@ Playback::Playback()
 void Playback::setSampleRate( double rate )
 {
     _sampleRate = rate;
-    _samplesPerSequence = ( _sampleRate / ( _bpm / 60.0 ) ) * 2;
+    _samplesPerSequence = ( rate / ( _bpm / 60.0 ) ) * 2;
+}
+
+double Playback::getSampleRate()
+{
+    return _sampleRate;
 }
 
 void Playback::play()
 {
     _position = 0;
+    updateSequence( 0 );
     _playing = !_playing;
 }
 

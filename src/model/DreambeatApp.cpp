@@ -10,9 +10,20 @@ juce::OwnedArray<TrackSequence>& DreambeatApp::loadSample()
     std::unique_ptr<juce::AudioFormatReader> amenReader( _formatManager.createReaderFor( amen ) );
     for ( int i = 0; i < 8; i++ )
     {
-        _tracks.add( new TrackSequence( amenReader.get(), 8, i ) );
+        auto* track = new TrackSequence( amenReader.get(), 8, i );
+        track->render( _playback.getSampleRate() );
+        _tracks.add( track );
     }
     return _tracks;
+}
+
+void DreambeatApp::setSampleRate( double rate )
+{
+    _playback.setSampleRate( rate );
+    for ( auto* track : _tracks )
+    {
+        track->render( rate );
+    }
 }
 
 void DreambeatApp::processBlock( juce::AudioBuffer<float>& buffer,

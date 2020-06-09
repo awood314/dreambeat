@@ -17,6 +17,7 @@ public:
     Playback();
 
     void setSampleRate( double rate );
+    double getSampleRate();
 
     void play();
     bool isPlaying();

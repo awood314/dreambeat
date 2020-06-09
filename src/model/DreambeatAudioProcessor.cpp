@@ -84,7 +84,7 @@ void DreambeatAudioProcessor::changeProgramName( int index, const String& newNam
 void DreambeatAudioProcessor::prepareToPlay( double sampleRate, int blockSize )
 {
     setLatencySamples( blockSize );
-    _app.getPlayback().setSampleRate( sampleRate );
+    _app.setSampleRate( sampleRate );
 }
 
 void DreambeatAudioProcessor::releaseResources()
@@ -119,7 +119,7 @@ bool DreambeatAudioProcessor::isBusesLayoutSupported( const BusesLayout& layouts
 
 void DreambeatAudioProcessor::processBlock( juce::AudioBuffer<float>& buffer, juce::MidiBuffer& midiMessages )
 {
-    //    ScopedNoDenormals noDenormals;
+    juce::ScopedNoDenormals noDenormals;
     auto numInputChannels = getTotalNumInputChannels();
     auto numOutputChannels = getTotalNumOutputChannels();
     for ( auto i = numInputChannels; i < numOutputChannels; ++i )

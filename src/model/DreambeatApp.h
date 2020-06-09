@@ -13,6 +13,8 @@ public:
 
     OwnedArray<TrackSequence>& loadSample();
 
+    void setSampleRate( double rate );
+
     TrackSequence* getTrack( int i );
     Arrangement& getArrangement();
     Playback& getPlayback();
