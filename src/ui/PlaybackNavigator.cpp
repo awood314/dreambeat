@@ -26,7 +26,7 @@ PlaybackNavigator::PlaybackNavigator( Playback& playback ) : _playback( playback
         // label
         auto* label = new juce::Label();
         label->setFont( juce::Font( 24 ) );
-        label->setText( juce::String( 1 + _playback.getSequence() ), juce::sendNotification );
+        label->setText( juce::String( 1 + _playback.getSequence( type ) ), juce::sendNotification );
         label->setJustificationType( juce::Justification::centred );
         _sequenceLabels.add( label );
         addAndMakeVisible( label );
@@ -46,7 +46,7 @@ PlaybackNavigator::PlaybackNavigator( Playback& playback ) : _playback( playback
         for ( int i = 0; i < orderedTypes.size(); i++ )
         {
             auto type = orderedTypes[i];
-            _sequenceLabels[i]->setText( juce::String( 1 + _playback.getSequence() ), juce::sendNotification );
+            _sequenceLabels[i]->setText( juce::String( 1 + _playback.getSequence( type ) ), juce::sendNotification );
             _sequenceUpButtons[i]->setEnabled( _playback.canDecrementSequence( type ) );
         }
     } );

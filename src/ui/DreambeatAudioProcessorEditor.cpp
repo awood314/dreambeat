@@ -13,7 +13,7 @@ DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProc
 
     /////////////////////////////////////
     // slicing a sample
-    auto* sg = new SequenceGrid( _app.getArrangement() );
+    auto* sg = new SequenceGrid( _app.getArrangement(), _app.getPlayback() );
     _grids.add( sg );
     _sequencerTabs.addTab( juce::String( 0 ), colors::grey, sg, 0 );
     for ( auto* track : _app.loadSample() )

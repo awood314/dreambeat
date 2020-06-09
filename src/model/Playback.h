@@ -25,6 +25,8 @@ public:
     int getSequence();
     int getOffset();
 
+    // beat, bar, phrase, navigation
+    int getSequence( SequenceType type );
     void incrementSequence( SequenceType type );
     void decrementSequence( SequenceType type );
     bool canDecrementSequence( SequenceType type );
@@ -34,10 +36,13 @@ public:
 private:
     void updateSequence( int sequence );
 
+    // state
     bool _playing{ false };
     int _position{ 0 };
-
+    int _sequence{ 0 };
     double _sampleRate{ 44100 };
+    double _bpm{ 137.40 };
+
     int _samplesPerSequence;
     std::vector<int> _sequencesPerType{ 1, 8, 32 };
     std::vector<int> _sections;
