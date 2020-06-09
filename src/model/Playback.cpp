@@ -1,5 +1,6 @@
 
 #include "Playback.h"
+#include <JuceHeader.h>
 #include <iostream>
 
 Playback::Playback()
@@ -25,7 +26,13 @@ bool Playback::isPlaying()
 
 void Playback::incrementPosition( int samples )
 {
+    int oldSequence = getSequence();
     _position += samples;
+    int sequence = getSequence();
+    if ( sequence > oldSequence )
+    {
+        juce::MessageManager::callAsync( [this, sequence] { newSequence( sequence ); } );
+    }
 }
 
 int Playback::getSequence()

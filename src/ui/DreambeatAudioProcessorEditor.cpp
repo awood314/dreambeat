@@ -11,15 +11,16 @@ DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProc
     // tabs
     addAndMakeVisible( _sequencerTabs );
 
-    // playhead
-    addAndMakeVisible( _playhead );
-    _playhead.setColour( juce::Label::backgroundColourId, colors::transparentWhite );
-    _playhead.setInterceptsMouseClicks( false, false );
-    p.getApp().getPlayback().newSequence.connect( [this]( int s ) {
-        auto top = _sequencerTabs.getY() + _sequencerTabs.getTabBarDepth();
-        auto div = ( _sequencerTabs.getBottom() - top ) / NUM_NOTES;
-        _playhead.setBounds( 0, top + ( s % NUM_NOTES ) * div, getWidth(), div );
-    } );
+    /////////////////////////////////////
+    // slicing a sample
+    auto* sg = new SequenceGrid( _app.getArrangement() );
+    _grids.add( sg );
+    _sequencerTabs.addTab( juce::String( 0 ), colors::grey, sg, 0 );
+    for ( auto* track : _app.loadSample() )
+    {
+        _grids[0]->addSequence();
+    }
+    /////////////////////////////////////
 
     // nav
     addAndMakeVisible( _nav );
@@ -32,18 +33,19 @@ DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProc
     _tempoSlider.setRange( 90, 180, 1 );
     //    _tempoSlider.onValueChange = [&p, this]() { p.getApp().updateTempo( _tempoSlider.getValue() ); };
 
-    /////////////////////////////////////
-    // slicing a sample
-    auto* sg = new SequenceGrid( _app.getArrangement() );
-    _grids.add( sg );
-    _sequencerTabs.addTab( juce::String( 0 ), colors::grey, sg, 0 );
-    for ( auto* track : _app.loadSample() )
-    {
-        _grids[0]->addSequence();
-    }
-    /////////////////////////////////////
+    // playhead
+    addAndMakeVisible( _playhead );
+    _playhead.setColour( juce::Label::backgroundColourId, colors::transparentWhite );
+    _playhead.setInterceptsMouseClicks( false, false );
+    auto playheadUpdate = [this]( int s ) {
+        auto top = _sequencerTabs.getY() + _sequencerTabs.getTabBarDepth();
+        auto div = ( _sequencerTabs.getBottom() - top ) / NUM_NOTES;
+        _playhead.setBounds( 0, top + ( s % NUM_NOTES ) * div, getWidth(), div );
+    };
+    p.getApp().getPlayback().newSequence.connect( playheadUpdate );
 
     setSize( 360, 640 );
+    playheadUpdate( _app.getPlayback().getSequence() );
 }
 
 void DreambeatAudioProcessorEditor::paint( juce::Graphics& g )
