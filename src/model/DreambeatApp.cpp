@@ -2,30 +2,6 @@
 #include "DreambeatApp.h"
 #include "../util/Threading.h"
 
-juce::OwnedArray<TrackSequence>& DreambeatApp::loadSample()
-{
-    _formatManager.registerBasicFormats();
-    auto amen = juce::File::createTempFile( ".wav" );
-    amen.replaceWithData( BinaryData::amen_wav, BinaryData::amen_wavSize );
-    std::unique_ptr<juce::AudioFormatReader> amenReader( _formatManager.createReaderFor( amen ) );
-    for ( int i = 0; i < 8; i++ )
-    {
-        auto* track = new TrackSequence( amenReader.get(), 8, i );
-        track->render( _playback.getSampleRate() );
-        _tracks.add( track );
-    }
-    return _tracks;
-}
-
-void DreambeatApp::setSampleRate( double rate )
-{
-    _playback.setSampleRate( rate );
-    for ( auto* track : _tracks )
-    {
-        track->render( rate );
-    }
-}
-
 void DreambeatApp::processBlock( juce::AudioBuffer<float>& buffer,
                                  juce::MidiBuffer& midiMessages,
                                  int numInputChannels,
@@ -39,11 +15,32 @@ void DreambeatApp::processBlock( juce::AudioBuffer<float>& buffer,
             auto* track = _tracks[trackIndex];
             if ( track != nullptr )
             {
-                auto offset = _playback.getOffset();
-                int samplesApplied = track->applyToBuffer( buffer, offset, numInputChannels, numOutputChannels );
+                track->getNextAudioBlock( juce::AudioSourceChannelInfo( &buffer, 0, buffer.getNumSamples() ) );
             }
         }
         _playback.incrementPosition( buffer.getNumSamples() );
+    }
+}
+
+juce::OwnedArray<TrackSequence>& DreambeatApp::loadSample()
+{
+    _formatManager.registerBasicFormats();
+    auto amen = juce::File::createTempFile( ".wav" );
+    amen.replaceWithData( BinaryData::amen_wav, BinaryData::amen_wavSize );
+    for ( int i = 0; i < 8; i++ )
+    {
+        _tracks.add( new TrackSequence( _formatManager.createReaderFor( amen ),
+                                        _playback.getSampleRate(), 8, i ) );
+    }
+    return _tracks;
+}
+
+void DreambeatApp::setSampleRate( double rate )
+{
+    _playback.setSampleRate( rate );
+    for ( auto* track : _tracks )
+    {
+        track->prepareToPlay( 512, rate );
     }
 }
 

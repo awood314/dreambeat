@@ -1,42 +1,40 @@
 
 #include "TrackSequence.h"
 
-TrackSequence::TrackSequence( juce::AudioFormatReader* reader, int slices, int index )
+TrackSequence::TrackSequence( juce::AudioFormatReader* reader, double sampleRate, int slices, int index )
+: _timestretcher( sampleRate, reader->numChannels, RubberBand::RubberBandStretcher::OptionProcessRealTime )
 {
     if ( reader != nullptr )
     {
-        // read slice into temporary buffer for resampling
-        _originalBuffer.setSize( (int)reader->numChannels, (int)reader->lengthInSamples );
-        auto slice = reader->lengthInSamples / slices;
-        reader->read( &_originalBuffer, 0, (int)slice, slice * index, true, true );
-        _originalSampleRate = reader->sampleRate;
+        _readerSource.reset( new AudioFormatReaderSource( reader, true ) );
+        setSource( _readerSource.get(), 0, nullptr, reader->sampleRate );
+        _basePosition = ( getTotalLength() / slices ) * index;
+        prepareToPlay( 512, sampleRate );
+        start();
+
+        _timestretcher.setTimeRatio( .5 );
     }
 }
 
-void TrackSequence::render( double sampleRate )
+TrackSequence::~TrackSequence()
 {
-    // resample the buffer
-    double ratio = _originalSampleRate / sampleRate;
-    _sampleBuffer.setSize( _originalBuffer.getNumChannels(), _originalBuffer.getNumSamples() / ratio );
-    for ( int channel = 0; channel < _sampleBuffer.getNumChannels(); channel++ )
-    {
-        LagrangeInterpolator resampler;
-        resampler.reset();
-        resampler.process( ratio, _originalBuffer.getReadPointer( channel ),
-                           _sampleBuffer.getWritePointer( channel ), _sampleBuffer.getNumSamples() );
-    }
+    setSource( nullptr );
+    releaseResources();
 }
 
-int TrackSequence::applyToBuffer( juce::AudioBuffer<float>& buffer, int position, int numInputChannels, int numOutputChannels )
+void TrackSequence::reset()
 {
-    auto numSamples = juce::jmin( buffer.getNumSamples(), _sampleBuffer.getNumSamples() - position );
-    if ( numSamples > 0 )
+    setNextReadPosition( _basePosition );
+}
+
+void TrackSequence::getNextAudioBlock( const juce::AudioSourceChannelInfo& info )
+{
+    // process buffer
+    while ( _timestretcher.available() < info.numSamples )
     {
-        for ( auto channel = 0; channel < numOutputChannels; ++channel )
-        {
-            buffer.copyFrom( channel, 0, _sampleBuffer, channel % numInputChannels, position, numSamples );
-        }
-        return numSamples;
+        // process more audio
+        juce::AudioTransportSource::getNextAudioBlock( info );
+        _timestretcher.process( info.buffer->getArrayOfReadPointers(), info.numSamples, false );
     }
-    return 0;
+    _timestretcher.retrieve( info.buffer->getArrayOfWritePointers(), info.numSamples );
 }

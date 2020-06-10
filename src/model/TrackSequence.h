@@ -2,19 +2,20 @@
 #pragma once
 
 #include <JuceHeader.h>
+#include <rubberband/rubberband/RubberBandStretcher.h>
 
-class TrackSequence
+class TrackSequence : public juce::AudioTransportSource
 {
 public:
-    TrackSequence( juce::AudioFormatReader* reader, int slices, int index );
+    TrackSequence( juce::AudioFormatReader* reader, double sampleRate, int slices, int index );
+    ~TrackSequence();
 
-    void render( double sampleRate );
+    void getNextAudioBlock( const juce::AudioSourceChannelInfo& info ) override;
 
-    int applyToBuffer( juce::AudioBuffer<float>& buffer, int position, int numInputChannels, int numOutputChannels );
+    void reset();
 
 private:
-    juce::AudioSampleBuffer _originalBuffer;
-    double _originalSampleRate;
-
-    juce::AudioSampleBuffer _sampleBuffer;
+    std::unique_ptr<juce::AudioFormatReaderSource> _readerSource;
+    juce::int64 _basePosition{ 0 };
+    RubberBand::RubberBandStretcher _timestretcher;
 };

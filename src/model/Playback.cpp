@@ -101,6 +101,7 @@ void Playback::updateSequence( int sequence )
     if ( sequence != _sequence )
     {
         _sequence = sequence;
+        _position = sequence * _samplesPerSequence;
         juce::MessageManager::callAsync( [this] { newSequence( _sequence ); } );
     }
 }

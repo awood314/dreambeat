@@ -2,3 +2,6 @@
 	path = lib/juce
 	url = git@github.com:juce-framework/JUCE.git
 	branch = juce6
+[submodule "lib/rubberband"]
+	path = lib/rubberband
+	url = git@github.com:breakfastquay/rubberband.git
