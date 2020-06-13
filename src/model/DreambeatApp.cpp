@@ -10,11 +10,14 @@ void DreambeatApp::processBlock( juce::AudioBuffer<float>& buffer,
     if ( buffer.getNumSamples() > 0 && _playback.isPlaying() )
     {
         auto seq = _playback.getSequence();
+        auto offset = _playback.getOffset();
+        auto tempo = _playback.getTempo();
         for ( const auto& trackIndex : _arrangement.getNotes( seq ) )
         {
             auto* track = _tracks[trackIndex];
             if ( track != nullptr )
             {
+                track->sync( seq, offset, tempo );
                 track->getNextAudioBlock( juce::AudioSourceChannelInfo( &buffer, 0, buffer.getNumSamples() ) );
             }
         }
@@ -30,7 +33,7 @@ juce::OwnedArray<TrackSequence>& DreambeatApp::loadSample()
     for ( int i = 0; i < 8; i++ )
     {
         _tracks.add( new TrackSequence( _formatManager.createReaderFor( amen ),
-                                        _playback.getSampleRate(), 8, i ) );
+                                        _playback.getSampleRate(), 137.40, 8, i ) );
     }
     return _tracks;
 }

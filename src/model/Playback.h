@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <JuceHeader.h>
 #include <nod/nod.hpp>
 
 class Playback
@@ -19,10 +20,14 @@ public:
     void setSampleRate( double rate );
     double getSampleRate();
 
+    void setTempo( float tempo );
+    float getTempo();
+
     void play();
     bool isPlaying();
 
     void incrementPosition( int samples );
+
     int getSequence();
     int getOffset();
 
@@ -35,16 +40,19 @@ public:
     nod::unsafe_signal<void( int )> newSequence;
 
 private:
-    void updateSequence( int sequence );
+    void updateSequence( juce::uint32 sequence );
+    int samplesPerSequence();
 
     // state
-    bool _playing{ false };
-    int _position{ 0 };
-    int _sequence{ 0 };
+    juce::AudioParameterFloat _tempo;
+    juce::uint64 _position{ 0 };
     double _sampleRate{ 44100 };
-    double _bpm{ 137.40 };
+    bool _playing{ false };
 
-    int _samplesPerSequence;
+    // selected sequence
+    juce::uint32 _sequence{ 0 };
+
+    // sequences and patterns
     std::vector<int> _sequencesPerType{ 1, 8, 32 };
     std::vector<int> _sections;
 };

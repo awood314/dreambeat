@@ -3,14 +3,17 @@
 #include <JuceHeader.h>
 #include <iostream>
 
-Playback::Playback()
+Playback::Playback() : _tempo( "tempo", "tempo", NormalisableRange<float>( 10.0, 300.0 ), 120.0 )
 {
 }
 
 void Playback::setSampleRate( double rate )
 {
+    auto currSequence = getSequence();
+    auto currOffset = getOffset();
     _sampleRate = rate;
-    _samplesPerSequence = ( rate / ( _bpm / 60.0 ) ) * 2;
+    _position = samplesPerSequence() * currSequence + currOffset;
+    // shouldn't need to fire signal
 }
 
 double Playback::getSampleRate()
@@ -18,10 +21,24 @@ double Playback::getSampleRate()
     return _sampleRate;
 }
 
+void Playback::setTempo( float tempo )
+{
+    auto currSequence = getSequence();
+    auto currOffset = getOffset();
+    _tempo = tempo;
+    _position = samplesPerSequence() * currSequence + currOffset;
+    // shouldn't need to fire signal
+}
+
+float Playback::getTempo()
+{
+    return _tempo;
+}
+
 void Playback::play()
 {
     _position = 0;
-    updateSequence( 0 );
+    updateSequence( getSequence() );
     _playing = !_playing;
 }
 
@@ -39,26 +56,28 @@ void Playback::incrementPosition( int samples )
 
 int Playback::getSequence()
 {
-    return _position / _samplesPerSequence;
+    return (int)_position / samplesPerSequence();
+}
+
+int Playback::getOffset()
+{
+    return _position % samplesPerSequence();
 }
 
 int Playback::getSequence( Playback::SequenceType type )
 {
     if ( type == Playback::SequenceType::Beat || type == Playback::SequenceType::Bar )
     {
-        return _sequence / _sequencesPerType[type] % ( _sequencesPerType[type + 1] / _sequencesPerType[type] );
+        return getSequence() / _sequencesPerType[type] %
+               ( _sequencesPerType[type + 1] / _sequencesPerType[type] );
     }
     if ( type == Playback::SequenceType::Phrase )
     {
-        return _sequence / _sequencesPerType[type];
+        return getSequence() / _sequencesPerType[type];
     }
     return 0;
 }
 
-int Playback::getOffset()
-{
-    return _position % _samplesPerSequence;
-}
 
 void Playback::incrementSequence( Playback::SequenceType type )
 {
@@ -96,12 +115,17 @@ bool Playback::canDecrementSequence( Playback::SequenceType type )
     return false;
 }
 
-void Playback::updateSequence( int sequence )
+void Playback::updateSequence( unsigned sequence )
 {
     if ( sequence != _sequence )
     {
         _sequence = sequence;
-        _position = sequence * _samplesPerSequence;
+        _position = sequence * samplesPerSequence();
         juce::MessageManager::callAsync( [this] { newSequence( _sequence ); } );
     }
+}
+
+int Playback::samplesPerSequence()
+{
+    return _sampleRate * 60 * 2 / _tempo;
 }

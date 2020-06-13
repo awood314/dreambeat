@@ -31,7 +31,9 @@ DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProc
     // tempo
     addAndMakeVisible( _tempoSlider );
     _tempoSlider.setRange( 90, 180, 1 );
-    //    _tempoSlider.onValueChange = [&p, this]() { p.getApp().updateTempo( _tempoSlider.getValue() ); };
+    _tempoSlider.onValueChange = [&p, this]() {
+        p.getApp().getPlayback().setTempo( _tempoSlider.getValue() );
+    };
 
     // playhead
     addAndMakeVisible( _playhead );
