@@ -11,11 +11,15 @@ public:
     ~TrackSequence();
 
     void getNextAudioBlock( const juce::AudioSourceChannelInfo& info ) override;
+    
+    void prepareToPlay( int blockSize, double sampleRate ) override;
 
     void sync( int sequence, int offset, float tempo );
 
 private:
     std::unique_ptr<juce::AudioFormatReaderSource> _readerSource;
+    int _slices;
+    int _index;
     juce::int64 _basePosition{ 0 };
 
     // state to keep in sync with playback

@@ -2,7 +2,7 @@
 #include "TrackSequence.h"
 
 TrackSequence::TrackSequence( juce::AudioFormatReader* reader, double sampleRate, float tempo, int slices, int index )
-: _tempo( tempo ),
+: _slices( slices ), _index( index ), _tempo( tempo ),
   _timestretcher( sampleRate, reader->numChannels, RubberBand::RubberBandStretcher::OptionProcessRealTime )
 {
     if ( reader != nullptr )
@@ -10,7 +10,6 @@ TrackSequence::TrackSequence( juce::AudioFormatReader* reader, double sampleRate
         _readerSource.reset( new AudioFormatReaderSource( reader, true ) );
         _readerSource->setLooping( true );
         setSource( _readerSource.get(), 0, nullptr, reader->sampleRate );
-        _basePosition = ( getTotalLength() / (float)slices ) * index;
         prepareToPlay( 512, sampleRate );
         setNextReadPosition( _basePosition );
         start();
@@ -21,6 +20,12 @@ TrackSequence::~TrackSequence()
 {
     setSource( nullptr );
     releaseResources();
+}
+
+void TrackSequence::prepareToPlay( int blockSize, double sampleRate )
+{
+    juce::AudioTransportSource::prepareToPlay( blockSize, sampleRate );
+    _basePosition = ( getTotalLength() / (float) _slices ) * _index;
 }
 
 void TrackSequence::getNextAudioBlock( const juce::AudioSourceChannelInfo& info )

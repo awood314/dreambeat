@@ -9,6 +9,8 @@ DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProc
   _nav( p.getApp().getPlayback() ), _playControls( p.getApp().getPlayback() )
 {
     // tabs
+    _sequencerTabs.setOutline( 0 );
+    _sequencerTabs.setTabBarDepth( 20 );
     addAndMakeVisible( _sequencerTabs );
 
     /////////////////////////////////////
@@ -58,8 +60,11 @@ void DreambeatAudioProcessorEditor::paint( juce::Graphics& g )
 
 void DreambeatAudioProcessorEditor::resized()
 {
+    auto columnWidth = getWidth() / 10;
+    auto gridWidth = columnWidth * 8;
+    
     _tempoSlider.setSize( getWidth(), 40 );
-    _sequencerTabs.setBounds( 0, _tempoSlider.getHeight(), getWidth(), getWidth() );
-    _nav.setBounds( 0, _sequencerTabs.getBottom(), getWidth(), 150 );
-    _playControls.setBounds( 0, _nav.getBottom(), getWidth(), getHeight() - _nav.getBottom() );
+    _sequencerTabs.setBounds( columnWidth, _tempoSlider.getHeight(), gridWidth, gridWidth );
+    _nav.setBounds( columnWidth, _sequencerTabs.getBottom(), gridWidth, 150 );
+    _playControls.setBounds( columnWidth, _nav.getBottom(), gridWidth, getHeight() - _nav.getBottom() );
 }
