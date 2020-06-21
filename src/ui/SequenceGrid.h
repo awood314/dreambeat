@@ -12,9 +12,6 @@ public:
     SequenceGrid( Arrangement& arrangement, Playback& playback );
 
     void resized() override;
-    void visibilityChanged() override;
-
-    void refresh();
 
     void addSequence();
 

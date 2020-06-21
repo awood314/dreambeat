@@ -17,42 +17,42 @@ public:
 
     Playback();
 
+    // rate adjustment
     void setSampleRate( double rate );
     double getSampleRate();
-
     void setTempo( float tempo );
     float getTempo();
 
+    // playback
     void play();
     bool isPlaying();
-
     void incrementPosition( int samples );
 
+    // rhythmic navigation
     int getSequence();
+    void setSequence( int sequence );
+    int getWindow();
+    int getResolution();
     int getOffset();
+    std::string getSequenceString( int sequence );
 
-    // beat, bar, phrase, navigation
-    int getSequence( SequenceType type );
-    void incrementSequence( SequenceType type );
-    void decrementSequence( SequenceType type );
-    bool canDecrementSequence( SequenceType type );
-
+    // signals
     nod::unsafe_signal<void( int )> newSequence;
+    nod::unsafe_signal<void( int )> newWindow;
 
 private:
-    void updateSequence( juce::uint32 sequence );
     int samplesPerSequence();
 
-    // state
+    // playback state
     juce::AudioParameterFloat _tempo;
     juce::uint64 _position{ 0 };
     double _sampleRate{ 44100 };
     bool _playing{ false };
 
-    // selected sequence
+    // rhythmic view state
+    juce::uint32 _window{ 0 };
     juce::uint32 _sequence{ 0 };
-
-    // sequences and patterns
-    std::vector<int> _sequencesPerType{ 1, 8, 32 };
+    juce::uint8 _resolution{ 1 }; // (sequences per grid item)
+    std::vector<int> _sequencesPerType{ 1, 4, 16 };
     std::vector<int> _sections;
 };

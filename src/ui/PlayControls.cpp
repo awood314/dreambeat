@@ -3,7 +3,8 @@
 #include <ui/Colors.h>
 
 PlayControls::PlayControls( Playback& playback )
-: _playback( playback ), _playButton( "play", juce::DrawableButton::ImageFitted )
+: _playback( playback )
+, _playButton( "play", juce::DrawableButton::ImageFitted )
 {
 
     // play button

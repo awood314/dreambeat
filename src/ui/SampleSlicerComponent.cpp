@@ -3,7 +3,8 @@
 
 int NUM_SLICES = 8;
 
-SampleSlicerComponent::SampleSlicerComponent( DreambeatApp& app ) : _thumbnailComponent( app )
+SampleSlicerComponent::SampleSlicerComponent( DreambeatApp& app )
+: _thumbnailComponent( app )
 {
     addAndMakeVisible( _thumbnailComponent );
     for ( int i = 0; i < NUM_SLICES; i++ )

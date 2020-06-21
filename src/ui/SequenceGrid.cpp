@@ -6,27 +6,19 @@ int GRID_SIZE = 8;
 int PADDING = 5;
 
 SequenceGrid::SequenceGrid( Arrangement& arrangement, Playback& playback )
-: _arrangement( arrangement ), _playback( playback )
+: _playback( playback )
+, _arrangement( arrangement )
 {
-    playback.newSequence.connect( [this]( int sequence ) { refresh(); } );
-}
-
-void SequenceGrid::visibilityChanged()
-{
-    refresh();
-}
-
-void SequenceGrid::refresh()
-{
-    int gridPage = _playback.getSequence( Playback::SequenceType::Bar );
-    for ( int i = 0; i < _sequences.size(); i++ )
-    {
-        for ( int j = 0; j < _sequences[i]->size(); j++ )
+    playback.newWindow.connect( [this]( int window ) {
+        for ( int i = 0; i < _sequences.size(); i++ )
         {
-            _sequences[i]->getUnchecked( j )->setToggleState(
-            _arrangement.getNotes( j + gridPage * GRID_SIZE ).count( i ), juce::sendNotification );
+            for ( int j = 0; j < _sequences[i]->size(); j++ )
+            {
+                _sequences[i]->getUnchecked( j )->setToggleState(
+                _arrangement.getNotes( j + window ).count( i ), juce::sendNotification );
+            }
         }
-    }
+    } );
 }
 
 void SequenceGrid::resized()
@@ -46,15 +38,13 @@ void SequenceGrid::resized()
 
 void SequenceGrid::addSequence()
 {
-
     int i = _sequences.size();
     auto sequence = _sequences.add( new juce::OwnedArray<SequenceItem>() );
     for ( int j = 0; j < GRID_SIZE; j++ )
     {
         auto* item = sequence->add( new SequenceItem( colors::black ) );
         item->onClick = [this, i, j, item]() {
-            int gridPage = _playback.getSequence( Playback::SequenceType::Bar );
-            _arrangement.setNote( i, j + gridPage * GRID_SIZE, item->getToggleState() );
+            _arrangement.setNote( i, j + _playback.getWindow(), item->getToggleState() );
         };
         addAndMakeVisible( item );
     }

@@ -11,7 +11,7 @@ public:
     ~TrackSequence();
 
     void getNextAudioBlock( const juce::AudioSourceChannelInfo& info ) override;
-    
+
     void prepareToPlay( int blockSize, double sampleRate ) override;
 
     void sync( int sequence, int offset, float tempo );

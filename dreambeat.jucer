@@ -36,10 +36,6 @@
       <GROUP id="{3FA7D79A-8BA5-6260-71D9-9B929617E6DF}" name="ui">
         <FILE id="JYJhg9" name="Timeline.cpp" compile="1" resource="0" file="src/ui/Timeline.cpp"/>
         <FILE id="lcXi4d" name="Timeline.h" compile="0" resource="0" file="src/ui/Timeline.h"/>
-        <FILE id="nWQG80" name="PlaybackNavigator.cpp" compile="1" resource="0"
-              file="src/ui/PlaybackNavigator.cpp"/>
-        <FILE id="F4bZeP" name="PlaybackNavigator.h" compile="0" resource="0"
-              file="src/ui/PlaybackNavigator.h"/>
         <FILE id="YIxQGg" name="PlayControls.h" compile="0" resource="0" file="src/ui/PlayControls.h"/>
         <FILE id="oh58oA" name="PlayControls.cpp" compile="1" resource="0"
               file="src/ui/PlayControls.cpp"/>

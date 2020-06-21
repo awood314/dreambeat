@@ -5,31 +5,12 @@
 int NUM_NOTES = 8;
 
 DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProcessor& p )
-: AudioProcessorEditor( &p ), _app( p.getApp() ), _sequencerTabs( juce::TabbedButtonBar::TabsAtTop ),
-  _nav( p.getApp().getPlayback() ), _playControls( p.getApp().getPlayback() )
+: AudioProcessorEditor( &p )
+, _app( p.getApp() )
+, _grid( _app.getArrangement(), _app.getPlayback() )
+, _timeline( _app.getPlayback() )
+, _playControls( _app.getPlayback() )
 {
-    // tabs
-    _sequencerTabs.setOutline( 0 );
-    _sequencerTabs.setTabBarDepth( 20 );
-    addAndMakeVisible( _sequencerTabs );
-
-    /////////////////////////////////////
-    // slicing a sample
-    auto* sg = new SequenceGrid( _app.getArrangement(), _app.getPlayback() );
-    _grids.add( sg );
-    _sequencerTabs.addTab( juce::String( 0 ), colors::grey, sg, 0 );
-    for ( auto* track : _app.loadSample() )
-    {
-        _grids[0]->addSequence();
-    }
-    /////////////////////////////////////
-
-    // nav
-    addAndMakeVisible( _nav );
-
-    // play controls
-    addAndMakeVisible( _playControls );
-
     // tempo
     addAndMakeVisible( _tempoSlider );
     _tempoSlider.setRange( 90, 180, 1 );
@@ -37,16 +18,28 @@ DreambeatAudioProcessorEditor::DreambeatAudioProcessorEditor( DreambeatAudioProc
         p.getApp().getPlayback().setTempo( _tempoSlider.getValue() );
     };
 
+    // grid
+    for ( auto* track : _app.loadSample() )
+    {
+        _grid.addSequence();
+    }
+    addAndMakeVisible( _grid );
+
+    // timeline
+    addAndMakeVisible( _timeline );
+
     // playhead
     addAndMakeVisible( _playhead );
     _playhead.setColour( juce::Label::backgroundColourId, colors::transparentWhite );
     _playhead.setInterceptsMouseClicks( false, false );
     auto playheadUpdate = [this]( int s ) {
-        auto top = _sequencerTabs.getY() + _sequencerTabs.getTabBarDepth();
-        auto div = ( _sequencerTabs.getBottom() - top ) / NUM_NOTES;
-        _playhead.setBounds( 0, top + ( s % NUM_NOTES ) * div, getWidth(), div );
+        auto div = _grid.getHeight() / NUM_NOTES;
+        _playhead.setBounds( _grid.getX(), _grid.getY() + ( s % NUM_NOTES ) * div, _grid.getWidth(), div );
     };
     p.getApp().getPlayback().newSequence.connect( playheadUpdate );
+
+    // play controls
+    addAndMakeVisible( _playControls );
 
     setSize( 360, 640 );
     playheadUpdate( _app.getPlayback().getSequence() );
@@ -62,9 +55,12 @@ void DreambeatAudioProcessorEditor::resized()
 {
     auto columnWidth = getWidth() / 10;
     auto gridWidth = columnWidth * 8;
-    
+
+    // top to bottom
     _tempoSlider.setSize( getWidth(), 40 );
-    _sequencerTabs.setBounds( columnWidth, _tempoSlider.getHeight(), gridWidth, gridWidth );
-    _nav.setBounds( columnWidth, _sequencerTabs.getBottom(), gridWidth, 150 );
-    _playControls.setBounds( columnWidth, _nav.getBottom(), gridWidth, getHeight() - _nav.getBottom() );
+
+    // bottom to top
+    _playControls.setBounds( columnWidth, getBottom() - columnWidth * 2, gridWidth, columnWidth * 2 );
+    _grid.setBounds( columnWidth, _playControls.getY() - gridWidth, gridWidth, gridWidth );
+    _timeline.setBounds( _grid.getRight(), _grid.getY(), columnWidth, gridWidth );
 }

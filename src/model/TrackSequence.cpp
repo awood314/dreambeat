@@ -2,8 +2,10 @@
 #include "TrackSequence.h"
 
 TrackSequence::TrackSequence( juce::AudioFormatReader* reader, double sampleRate, float tempo, int slices, int index )
-: _slices( slices ), _index( index ), _tempo( tempo ),
-  _timestretcher( sampleRate, reader->numChannels, RubberBand::RubberBandStretcher::OptionProcessRealTime )
+: _slices( slices )
+, _index( index )
+, _tempo( tempo )
+, _timestretcher( sampleRate, reader->numChannels, RubberBand::RubberBandStretcher::OptionProcessRealTime )
 {
     if ( reader != nullptr )
     {
@@ -25,7 +27,7 @@ TrackSequence::~TrackSequence()
 void TrackSequence::prepareToPlay( int blockSize, double sampleRate )
 {
     juce::AudioTransportSource::prepareToPlay( blockSize, sampleRate );
-    _basePosition = ( getTotalLength() / (float) _slices ) * _index;
+    _basePosition = ( getTotalLength() / (float)_slices ) * _index;
 }
 
 void TrackSequence::getNextAudioBlock( const juce::AudioSourceChannelInfo& info )

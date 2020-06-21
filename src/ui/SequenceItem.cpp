@@ -2,7 +2,8 @@
 #include "SequenceItem.h"
 #include <ui/Colors.h>
 
-SequenceItem::SequenceItem( juce::Colour color ) : _color( color )
+SequenceItem::SequenceItem( juce::Colour color )
+: _color( color )
 {
 }
 

@@ -1,9 +1,10 @@
 
 #include "Playback.h"
 #include <JuceHeader.h>
-#include <iostream>
+#include <sstream>
 
-Playback::Playback() : _tempo( "tempo", "tempo", NormalisableRange<float>( 10.0, 300.0 ), 120.0 )
+Playback::Playback()
+: _tempo( "tempo", "tempo", NormalisableRange<float>( 10.0, 300.0 ), 120.0 )
 {
 }
 
@@ -38,7 +39,7 @@ float Playback::getTempo()
 void Playback::play()
 {
     _position = 0;
-    updateSequence( getSequence() );
+    setSequence( getSequence() );
     _playing = !_playing;
 }
 
@@ -51,7 +52,7 @@ void Playback::incrementPosition( int samples )
 {
     _position += samples;
     // if following playhead
-    updateSequence( getSequence() );
+    setSequence( getSequence() );
 }
 
 int Playback::getSequence()
@@ -59,73 +60,56 @@ int Playback::getSequence()
     return (int)_position / samplesPerSequence();
 }
 
+void Playback::setSequence( int sequence )
+{
+    if ( sequence != _sequence )
+    {
+        // update sequence
+        _sequence = sequence;
+        _position = sequence * samplesPerSequence();
+        juce::MessageManager::callAsync( [this] { newSequence( _sequence ); } );
+
+        // update window if necessary
+        if ( _sequence - _window >= 8 * _resolution )
+        {
+            _window = _sequence - _sequence % ( 8 * _resolution );
+            juce::MessageManager::callAsync( [this] { newWindow( _window ); } );
+        }
+    }
+}
+
+int Playback::getResolution()
+{
+    return _resolution;
+}
+
+int Playback::getWindow()
+{
+    return _window;
+}
+
 int Playback::getOffset()
 {
     return _position % samplesPerSequence();
 }
 
-int Playback::getSequence( Playback::SequenceType type )
-{
-    if ( type == Playback::SequenceType::Beat || type == Playback::SequenceType::Bar )
-    {
-        return getSequence() / _sequencesPerType[type] %
-               ( _sequencesPerType[type + 1] / _sequencesPerType[type] );
-    }
-    if ( type == Playback::SequenceType::Phrase )
-    {
-        return getSequence() / _sequencesPerType[type];
-    }
-    return 0;
-}
-
-
-void Playback::incrementSequence( Playback::SequenceType type )
-{
-    if ( type != Playback::SequenceType::Section )
-    {
-        updateSequence( _sequence + _sequencesPerType[type] - _sequence % _sequencesPerType[type] );
-    }
-}
-
-void Playback::decrementSequence( Playback::SequenceType type )
-{
-    if ( type != Playback::SequenceType::Section )
-    {
-        if ( _sequence > 0 )
-        {
-            int diff = _sequence % _sequencesPerType[type];
-            if ( diff )
-            {
-                updateSequence( _sequence - diff );
-            }
-            else
-            {
-                updateSequence( _sequence - _sequencesPerType[type] );
-            }
-        }
-    }
-}
-
-bool Playback::canDecrementSequence( Playback::SequenceType type )
-{
-    if ( type != Playback::SequenceType::Section )
-    {
-        return _sequence > 0;
-    }
-    return false;
-}
-
-void Playback::updateSequence( unsigned sequence )
-{
-    if ( sequence != _sequence )
-    {
-        _sequence = sequence;
-        _position = sequence * samplesPerSequence();
-        juce::MessageManager::callAsync( [this] { newSequence( _sequence ); } );
-    }
-}
-
 int Playback::samplesPerSequence()
 {
     return _sampleRate * 60 * 2 / _tempo;
+}
+
+std::string Playback::getSequenceString( int sequence )
+{
+    std::stringstream ss;
+    for ( int i = _sequencesPerType.size() - 1; i >= 0; i-- )
+    {
+        auto currType = sequence / _sequencesPerType[i];
+        ss << currType;
+        if ( i > 0 )
+        {
+            ss << ":";
+        }
+        sequence -= currType * _sequencesPerType[i];
+    }
+    return ss.str();
 }

@@ -3,8 +3,8 @@
 
 #include <model/DreambeatAudioProcessor.h>
 #include <ui/PlayControls.h>
-#include <ui/PlaybackNavigator.h>
 #include <ui/SequenceGrid.h>
+#include <ui/Timeline.h>
 
 #include <JuceHeader.h>
 
@@ -21,10 +21,9 @@ private:
 
     juce::Slider _tempoSlider;
 
-    juce::TabbedComponent _sequencerTabs;
-    juce::OwnedArray<SequenceGrid> _grids;
+    SequenceGrid _grid;
     juce::Label _playhead;
-    PlaybackNavigator _nav;
+    Timeline _timeline;
     PlayControls _playControls;
 
     JUCE_DECLARE_NON_COPYABLE_WITH_LEAK_DETECTOR( DreambeatAudioProcessorEditor )
