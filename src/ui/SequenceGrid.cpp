@@ -18,6 +18,7 @@ SequenceGrid::SequenceGrid( Arrangement& arrangement, Playback& playback )
                 _arrangement.getNotes( j + window ).count( i ), juce::sendNotification );
             }
         }
+        _sequences[0]->getUnchecked( 0 )->setEnabled( !_arrangement.hasFinerResolution( 7, 0, 2 ) );
     } );
 }
 

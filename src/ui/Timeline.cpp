@@ -12,6 +12,7 @@ Timeline::Timeline( Playback& p )
         timeLabel->setJustificationType( juce::Justification::centredTop );
         timeLabel->setMinimumHorizontalScale( 1.0 );
         timeLabel->setFont( juce::Font( 12.0 ) );
+        timeLabel->setInterceptsMouseClicks( false, false );
         _timeLabels.add( timeLabel );
         addAndMakeVisible( timeLabel );
     }
@@ -26,13 +27,19 @@ Timeline::Timeline( Playback& p )
     labelUpdate( 0 );
 }
 
+void Timeline::mouseDown( const juce::MouseEvent &event )
+{
+    auto section = ( event.getMouseDownY() * NUM_TICKS ) / getHeight();
+    _playback.setSequence( _playback.getWindow() + section * _playback.getResolution() );
+}
+
 void Timeline::paint( juce::Graphics& g )
 {
 }
 
 void Timeline::resized()
 {
-    auto div = getHeight() / 8;
+    auto div = getHeight() / NUM_TICKS;
     for ( int i = 0; i < NUM_TICKS; i++ )
     {
         _timeLabels[i]->setBounds( 0, div * i, getWidth(), div );

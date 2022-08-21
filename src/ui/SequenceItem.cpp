@@ -17,5 +17,9 @@ void SequenceItem::paint( juce::Graphics& g )
     {
         g.setColour( colors::white );
     }
+    if ( !isEnabled() )
+    {
+        g.setColour( colors::transparentWhite );
+    }
     g.fillRoundedRectangle( getLocalBounds().toFloat(), 1.0 );
 }

@@ -29,6 +29,10 @@
               file="src/model/DreambeatAudioProcessor.h"/>
         <FILE id="zv2Qcs" name="Playback.cpp" compile="1" resource="0" file="src/model/Playback.cpp"/>
         <FILE id="QW35Mc" name="Playback.h" compile="0" resource="0" file="src/model/Playback.h"/>
+        <FILE id="aEgmGU" name="ResolutionTree.cpp" compile="1" resource="0"
+              file="src/model/ResolutionTree.cpp"/>
+        <FILE id="DYYixh" name="ResolutionTree.h" compile="0" resource="0"
+              file="src/model/ResolutionTree.h"/>
         <FILE id="Ps30vi" name="TrackSequence.cpp" compile="1" resource="0"
               file="src/model/TrackSequence.cpp"/>
         <FILE id="c7zXPQ" name="TrackSequence.h" compile="0" resource="0" file="src/model/TrackSequence.h"/>

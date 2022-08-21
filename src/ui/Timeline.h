@@ -9,6 +9,8 @@ class Timeline : public juce::Component
 {
 public:
     Timeline( Playback& p );
+    
+    void mouseDown( const juce::MouseEvent &event ) override;
 
     void paint( juce::Graphics& g ) override;
     void resized() override;
